@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-ru="Wrestling Academy" data-en="Wrestling Academy">Wrestling Academy</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeLogin">&times;</span>
+      <h2 data-ru="Вход в аккаунт" data-en="Sign In">Вход в аккаунт</h2>
+      <input type="text" placeholder="Имя" data-ru-placeholder="Имя" data-en-placeholder="Name">
+      <input type="email" placeholder="Email" data-ru-placeholder="Email" data-en-placeholder="Email">
+      <input type="password" placeholder="Пароль" data-ru-placeholder="Пароль" data-en-placeholder="Password">
+      <button class="primary-btn" data-ru="Зарегистрироваться" data-en="Sign Up">Зарегистрироваться</button>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeSettings">&times;</span>
+      <h2 data-ru="Настройки" data-en="Settings">Настройки</h2>
+      <div class="settings-option">
+        <span data-ru="Светлая тема" data-en="Light Theme">Светлая тема</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-option">
+        <span data-ru="Анимации" data-en="Animations">Анимации</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="animToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-option">
+        <span data-ru="Английский язык" data-en="English Language">Английский язык</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="languageToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="glow glow-top"></div>
+  <div class="glow glow-bottom"></div>
+
+  <header>
+    <div class="logo">LATT.APP</div>
+    <nav>
+      <a href="#" class="nav-link active" data-tab="home-tab" data-ru="Главная" data-en="Home">Главная</a>
+      <a href="#" class="nav-link" data-tab="tournaments-tab" data-ru="Турниры" data-en="Tournaments">Турниры</a>
+      <a href="#" class="nav-link" data-tab="sections-tab" data-ru="Секции" data-en="Sections">Секции</a>
+      <a href="#" class="nav-link" data-tab="tips-tab" data-ru="Советы" data-en="Tips">Советы</a>
+      <a href="#" class="nav-link" data-tab="fighters-tab" data-ru="Борцы" data-en="Fighters">Борцы</a>
+    </nav>
+    <div class="top-actions">
+      <button class="profile-btn" id="openLogin" data-ru="Профиль" data-en="Profile">Профиль</button>
+      <button class="settings-btn" id="openSettings">&#9881;</button>
+    </div>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div id="home-tab" class="tab-content active-tab">
+    <section class="hero" id="home">
+      <div class="hero-content fade-up">
+        <div class="hero-badge" data-ru="Добро пожаловать" data-en="Welcome">Добро пожаловать</div>
+        <h1>
+          <span class="gradient-text" data-ru="Стань сильнее." data-en="Become stronger.">Стань сильнее.</span><br>
+          <span data-ru="Стань чемпионом." data-en="Become a champion.">Стань чемпионом.</span>
+        </h1>
+        <p class="description" data-ru="Новости мировой борьбы, лучшие спортсмены, турниры, дисциплина и развитие чемпионского характера." data-en="World wrestling news, top athletes, tournaments, discipline, and champion mindset development.">
+          Новости мировой борьбы, лучшие спортсмены, турниры, дисциплина и развитие чемпионского характера.
+        </p>
+        <div class="buttons">
+          <button class="primary-btn" data-ru="Новости" data-en="News">Новости</button>
+          <button class="secondary-btn" data-ru="Турниры" data-en="Tournaments">Турниры</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="stat-card fade-up">
+        <span class="stat-number">500+</span>
+        <span class="stat-label" data-ru="Спортсменов" data-en="Athletes">Спортсменов</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-number">50+</span>
+        <span class="stat-label" data-ru="Турниров" data-en="Tournaments">Турниров</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-number">15</span>
+        <span class="stat-label" data-ru="Секций" data-en="Sections">Секций</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-number">10</span>
+        <span class="stat-label" data-ru="Лет опыта" data-en="Years experience">Лет опыта</span>
+      </div>
+    </section>
+
+    <section class="section home-news">
+      <div class="section-title fade-up">
+        <h2 data-ru="Новости мировой борьбы" data-en="World Wrestling News">Новости мировой борьбы</h2>
+      </div>
+      <div class="cards">
+        <div class="card fade-up">
+          <div class="card-icon">&#127942;</div>
+          <h3 data-ru="Чемпионат мира" data-en="World Championship">Чемпионат мира</h3>
+          <p data-ru="Последние результаты международных турниров и соревнований по вольной борьбе." data-en="Latest results from international freestyle wrestling tournaments.">
+            Последние результаты международных турниров и соревнований по вольной борьбе.
+          </p>
+        </div>
+        <div class="card fade-up">
+          <div class="card-icon">&#11088;</div>
+          <h3 data-ru="Новые чемпионы" data-en="New Champions">Новые чемпионы</h3>
+          <p data-ru="Молодые борцы, которые становятся звёздами спорта." data-en="Young wrestlers rising to become sports stars.">
+            Молодые борцы, которые становятся звёздами спорта.
+          </p>
+        </div>
+        <div class="card fade-up">
+          <div class="card-icon">&#128170;</div>
+          <h3 data-ru="Тренировки" data-en="Training">Тренировки</h3>
+          <p data-ru="Современные методы подготовки профессиональных спортсменов." data-en="Modern training methods for professional athletes.">
+            Современные методы подготовки профессиональных спортсменов.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section home-partners">
+      <div class="section-title fade-up">
+        <h2 data-ru="Спонсоры и партнёры" data-en="Sponsors & Partners">Спонсоры и партнёры</h2>
+      </div>
+      <div class="partners-wrapper">
+        <div class="partners-grid">
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="tournaments-tab" class="tab-content">
+    <section class="section tournaments-section separate-page">
+      <div class="section-title fade-up">
+        <h2 data-ru="Турниры и соревнования" data-en="Tournaments & Events">Турниры и соревнования</h2>
+      </div>
+      <div class="tournament-grid">
+        <div class="tournament-card fade-up">
+          <div class="tournament-date">12 Авг</div>
+          <h3 data-ru="Чемпионат Ингушетии" data-en="Ingushetia Championship">Чемпионат Ингушетии</h3>
+          <p data-ru="Крупный турнир по вольной борьбе среди молодых спортсменов." data-en="Major freestyle wrestling tournament for young athletes.">
+            Крупный турнир по вольной борьбе среди молодых спортсменов.
+          </p>
+          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
+        </div>
+        <div class="tournament-card fade-up">
+          <div class="tournament-date">26 Сент</div>
+          <h3 data-ru="Международный турнир" data-en="International Tournament">Международный турнир</h3>
+          <p data-ru="Турнир с участием спортсменов из разных регионов." data-en="Tournament featuring athletes from various regions.">
+            Турнир с участием спортсменов из разных регионов.
+          </p>
+          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
+        </div>
+        <div class="tournament-card fade-up">
+          <div class="tournament-date">10 Окт</div>
+          <h3 data-ru="Юношеский чемпионат" data-en="Youth Championship">Юношеский чемпионат</h3>
+          <p data-ru="Соревнования среди юниоров и молодых борцов." data-en="Competitions for juniors and young wrestlers.">
+            Соревнования среди юниоров и молодых борцов.
+          </p>
+          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
+        </div>
+        <div class="tournament-card fade-up">
+          <div class="tournament-date">15 Нояб</div>
+          <h3 data-ru="Кубок Кавказа" data-en="Caucasus Cup">Кубок Кавказа</h3>
+          <p data-ru="Ежегодный турнир среди сильнейших борцов региона." data-en="Annual tournament among the region's strongest wrestlers.">
+            Ежегодный турнир среди сильнейших борцов региона.
+          </p>
+          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="fighters-tab" class="tab-content">
+    <section class="section athletes separate-page" id="athletes">
+      <div class="section-title fade-up">
+        <h2 data-ru="Наши борцы" data-en="Our Fighters">Наши борцы</h2>
+      </div>
+      <div class="fighter-grid">
+        <div class="fighter-card fade-up">
+          <div class="fighter-img" style="background-image: url('https://masterpiecer-images.s3.yandex.net/4b9fe7d583c211eebd093abd0be4d755:upscaled')"></div>
+          <div class="fighter-info">
+            <h3>Гилани</h3>
+            <p data-ru="Чемпион Ингушетии по вольной борьбе. Мастер спорта, победитель международных турниров." data-en="Ingushetia freestyle wrestling champion. Master of Sports, winner of international tournaments.">
+              Чемпион Ингушетии по вольной борьбе. Мастер спорта, победитель международных турниров.
+            </p>
+            <div class="fighter-stats">
+              <span data-ru="Побед: 24" data-en="Wins: 24">Побед: 24</span>
+              <span data-ru="Поражений: 3" data-en="Losses: 3">Поражений: 3</span>
+            </div>
+          </div>
+        </div>
+        <div class="fighter-card fade-up">
+          <div class="fighter-img" style="background-image: url('https://placehold.co/600x800/0e1117/2ea3ff?text=FIGHTER')"></div>
+          <div class="fighter-info">
+            <h3 data-ru="Имя Борца" data-en="Fighter Name">Имя Борца</h3>
+            <p data-ru="Информация о спортсмене, турнирах и опыте." data-en="Information about the athlete, tournaments, and experience.">
+              Информация о спортсмене, турнирах и опыте.
+            </p>
+            <div class="fighter-stats">
+              <span data-ru="Побед: 18" data-en="Wins: 18">Побед: 18</span>
+              <span data-ru="Поражений: 5" data-en="Losses: 5">Поражений: 5</span>
+            </div>
+          </div>
+        </div>
+        <div class="fighter-card fade-up">
+          <div class="fighter-img" style="background-image: url('https://placehold.co/600x800/0e1117/2ea3ff?text=FIGHTER')"></div>
+          <div class="fighter-info">
+            <h3 data-ru="Имя Борца" data-en="Fighter Name">Имя Борца</h3>
+            <p data-ru="Здесь будет полная информация о спортсмене." data-en="Full information about the athlete will be here.">
+              Здесь будет полная информация о спортсмене.
+            </p>
+            <div class="fighter-stats">
+              <span data-ru="Побед: 12" data-en="Wins: 12">Побед: 12</span>
+              <span data-ru="Поражений: 2" data-en="Losses: 2">Поражений: 2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="sections-tab" class="tab-content">
+    <section class="section separate-page" id="sections">
+      <div class="section-title fade-up">
+        <h2 data-ru="Секции" data-en="Sections">Секции</h2>
+      </div>
+      <div class="training-grid">
+        <div class="training-box fade-up">
+          <div class="training-icon">&#128118;</div>
+          <h3 data-ru="Дети" data-en="Children">Дети</h3>
+          <p data-ru="Начальная подготовка и физическое развитие. Возраст 6–12 лет." data-en="Basic training and physical development. Ages 6–12.">
+            Начальная подготовка и физическое развитие. Возраст 6–12 лет.
+          </p>
+        </div>
+        <div class="training-box fade-up">
+          <div class="training-icon">&#128170;</div>
+          <h3 data-ru="Подростки" data-en="Teens">Подростки</h3>
+          <p data-ru="Развитие техники и участие в соревнованиях. Возраст 13–17 лет." data-en="Technique development and competition participation. Ages 13–17.">
+            Развитие техники и участие в соревнованиях. Возраст 13–17 лет.
+          </p>
+        </div>
+        <div class="training-box fade-up">
+          <div class="training-icon">&#127947;</div>
+          <h3 data-ru="Профессионалы" data-en="Professionals">Профессионалы</h3>
+          <p data-ru="Интенсивные тренировки высокого уровня. Для опытных спортсменов." data-en="High-intensity advanced training for experienced athletes.">
+            Интенсивные тренировки высокого уровня. Для опытных спортсменов.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="tips-tab" class="tab-content">
+    <section class="section tips separate-page" id="tips">
+      <div class="section-title fade-up">
+        <h2 data-ru="Советы" data-en="Tips">Советы</h2>
+      </div>
+      <div class="tips-container">
+        <div class="tip-card fade-up">
+          <h3 data-ru="Для родителей" data-en="For Parents">Для родителей</h3>
+          <ul>
+            <li data-ru="Поддерживайте ребёнка морально." data-en="Support your child emotionally.">Поддерживайте ребёнка морально.</li>
+            <li data-ru="Следите за режимом сна и питания." data-en="Monitor sleep and nutrition.">Следите за режимом сна и питания.</li>
+            <li data-ru="Не давите результатами." data-en="Don't pressure for results.">Не давите результатами.</li>
+            <li data-ru="Поощряйте дисциплину и трудолюбие." data-en="Encourage discipline and hard work.">Поощряйте дисциплину и трудолюбие.</li>
+          </ul>
+        </div>
+        <div class="tip-card fade-up">
+          <h3 data-ru="Для борцов" data-en="For Fighters">Для борцов</h3>
+          <ul>
+            <li data-ru="Будьте дисциплинированными." data-en="Be disciplined.">Будьте дисциплинированными.</li>
+            <li data-ru="Не пропускайте тренировки." data-en="Never skip training.">Не пропускайте тренировки.</li>
+            <li data-ru="Работайте над характером." data-en="Work on your character.">Работайте над характером.</li>
+            <li data-ru="Всегда уважайте соперника." data-en="Always respect your opponent.">Всегда уважайте соперника.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">LATT.APP</div>
+        <p data-ru="Академия вольной борьбы" data-en="Freestyle Wrestling Academy">Академия вольной борьбы</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" data-ru="Главная" data-en="Home">Главная</a>
+        <a href="#" data-ru="Турниры" data-en="Tournaments">Турниры</a>
+        <a href="#" data-ru="Секции" data-en="Sections">Секции</a>
+        <a href="#" data-ru="Контакты" data-en="Contacts">Контакты</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Wrestling Academy</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
