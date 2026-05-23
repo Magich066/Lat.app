@@ -162,6 +162,21 @@ nav a:hover {
   padding: 0 20px;
   position: relative;
   overflow: hidden;
+  background:
+    linear-gradient(rgba(5,8,22,0.42), rgba(5,8,22,0.82)),
+    url('https://images.unsplash.com/photo-1591115765373-52077643f9e2?w=1600') center/cover;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 78%);
+  pointer-events: none;
 }
 
 .hero-content {
@@ -216,6 +231,25 @@ nav a:hover {
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.hero-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.hero-highlights span {
+  color: rgba(255,255,255,0.78);
+  background: rgba(5,8,22,0.48);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
 }
 
 button {
@@ -373,6 +407,66 @@ button {
   font-size: 15px;
 }
 
+.news-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.news-card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  min-height: 310px;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(255,255,255,0.42);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.news-card p {
+  flex: 1;
+}
+
+.news-source {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  color: #2ea3ff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 22px;
+  transition: 0.3s;
+}
+
+.news-source:hover {
+  color: white;
+  transform: translateX(4px);
+}
+
+.news-card,
+.tournament-card,
+.fighter-card,
+.section-card,
+.tip-card {
+  cursor: pointer;
+}
+
+.news-card:focus-visible,
+.tournament-card:focus-visible,
+.fighter-card:focus-visible,
+.section-card:focus-visible,
+.tip-card:focus-visible {
+  outline: 2px solid #2ea3ff;
+  outline-offset: 4px;
+}
+
 .partners-wrapper {
   overflow: hidden;
   width: 100%;
@@ -423,16 +517,34 @@ button {
   border-color: #2ea3ff;
 }
 
-.partner-box img {
-  width: 100px;
-  opacity: 0.7;
-  filter: grayscale(0.3);
+.partner-mark {
+  width: 150px;
+  min-height: 78px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.78);
+  text-align: center;
   transition: 0.4s;
 }
 
-.partner-box:hover img {
-  opacity: 1;
-  filter: grayscale(0);
+.partner-mark strong {
+  color: #2ea3ff;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.partner-mark span {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.partner-box:hover .partner-mark {
+  color: white;
 }
 
 @keyframes scrollPartners {
@@ -510,9 +622,9 @@ button {
 
 .fighter-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 28px;
-  max-width: 1100px;
+  max-width: 1220px;
   margin: 0 auto;
 }
 
@@ -533,10 +645,25 @@ button {
 
 .fighter-img {
   width: 100%;
-  height: 380px;
+  height: 250px;
   background-size: cover;
   background-position: center;
   transition: 0.6s;
+}
+
+.fighter-img-text {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 24px;
+  background:
+    linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 34%),
+    #0e1117;
+  color: white;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1.15;
 }
 
 .fighter-card:hover .fighter-img {
@@ -612,6 +739,59 @@ button {
   font-size: 15px;
 }
 
+.section-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-meta {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0 16px;
+}
+
+.section-meta span {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.62);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.rating button {
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.35);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.rating button.active,
+.rating button:hover {
+  color: #ffd166;
+  background: rgba(255,209,102,0.12);
+}
+
+.rating-value {
+  margin-top: 10px;
+  color: rgba(255,255,255,0.52);
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .tips-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -684,20 +864,22 @@ footer {
   margin-top: 8px;
 }
 
-.footer-links {
+.footer-contact {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.footer-links a {
+.footer-contact,
+.footer-contact a {
   color: rgba(255,255,255,0.5);
   text-decoration: none;
   font-size: 14px;
   transition: 0.3s;
 }
 
-.footer-links a:hover {
+.footer-contact a:hover {
   color: #2ea3ff;
 }
 
@@ -748,6 +930,75 @@ footer {
   position: relative;
 }
 
+.detail-content {
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(760px, calc(100vh - 32px));
+  overflow-y: auto;
+  gap: 14px;
+}
+
+.detail-meta {
+  color: #2ea3ff;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.6;
+  padding-right: 30px;
+}
+
+.detail-body {
+  color: rgba(255,255,255,0.68);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.detail-body p + p {
+  margin-top: 12px;
+}
+
+.detail-page {
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+.detail-back {
+  margin-bottom: 28px;
+  padding: 12px 22px;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 430px) 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.detail-cover {
+  min-height: 460px;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(145deg, rgba(46,163,255,0.35), rgba(168,85,247,0.16)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 36%),
+    #0e1117;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.detail-panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 28px;
+  padding: 36px;
+}
+
+.detail-panel h2 {
+  font-size: 38px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
 .modal-content h2 {
   font-size: 24px;
   font-weight: 700;
@@ -773,6 +1024,31 @@ footer {
 
 .modal-content input::placeholder {
   color: rgba(255,255,255,0.3);
+}
+
+.form-message {
+  min-height: 20px;
+  color: #2ea3ff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.profile-detail {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.profile-label {
+  font-weight: 700;
+  color: #2ea3ff;
+}
+
+.light-theme .profile-detail {
+  color: rgba(0,0,0,0.6);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .close-modal {
@@ -859,14 +1135,54 @@ footer {
   nav.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(5,8,22,0.98); padding: 20px 24px; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .hamburger { display: flex; }
   .section { padding: 80px 20px; }
+  .separate-page { padding-top: 110px; }
   .hero h1 { font-size: 40px; }
   .stats-section { gap: 16px; padding: 40px 16px 60px; }
   .stat-card { padding: 20px 28px; min-width: 120px; }
   .stat-number { font-size: 30px; }
+  .hero-highlights { align-items: center; flex-direction: column; }
+  .cards,
+  .news-grid,
+  .tournament-grid,
+  .fighter-grid,
+  .training-grid,
+  .tips-container {
+    grid-template-columns: 1fr;
+  }
   .section-title h2 { font-size: 30px; }
-  .modal-content { width: 360px; padding: 30px; }
+  .modal-content { width: min(360px, calc(100vw - 32px)); padding: 30px; }
+  .detail-layout { grid-template-columns: 1fr; }
+  .detail-cover { min-height: 280px; }
+  .detail-panel { padding: 26px; }
+  .detail-panel h2 { font-size: 28px; }
   footer { padding: 36px 20px 24px; }
   .footer-content { flex-direction: column; text-align: center; }
+  .footer-contact { justify-content: center; gap: 12px 18px; }
+}
+
+@media (max-width: 420px) {
+  header { padding: 14px 16px; }
+  .logo { font-size: 21px; letter-spacing: 1px; }
+  .top-actions { gap: 8px; }
+  .profile-btn { padding: 9px 12px; font-size: 12px; }
+  .settings-btn { padding: 8px 10px; }
+  .hero { padding: 96px 16px 40px; min-height: auto; }
+  .hero h1 { font-size: 32px; }
+  .description { font-size: 15px; line-height: 1.6; }
+  button { padding: 13px 20px; font-size: 14px; }
+  .section { padding-left: 16px; padding-right: 16px; }
+  .card,
+  .tournament-card,
+  .fighter-info,
+  .training-box,
+  .tip-card,
+  .detail-panel {
+    padding: 24px 20px;
+  }
+  .fighter-img { height: 220px; }
+  .detail-cover { min-height: 240px; border-radius: 20px; }
+  .detail-panel h2 { font-size: 24px; }
+  .modal-content { padding: 26px 20px; border-radius: 22px; }
 }
 
 /* ========== LIGHT THEME ========== */
@@ -962,7 +1278,39 @@ footer {
   color: rgba(0,0,0,0.6);
 }
 
+.light-theme .news-meta {
+  color: rgba(0,0,0,0.45);
+}
+
+.light-theme .news-source:hover {
+  color: #111;
+}
+
+.light-theme .partner-mark {
+  color: rgba(0,0,0,0.62);
+}
+
+.light-theme .partner-box:hover .partner-mark {
+  color: #111;
+}
+
 .light-theme .stat-label {
+  color: rgba(0,0,0,0.5);
+}
+
+.light-theme .section-meta span,
+.light-theme .rating button {
+  color: rgba(0,0,0,0.52);
+  background: rgba(0,0,0,0.04);
+}
+
+.light-theme .rating button.active,
+.light-theme .rating button:hover {
+  color: #b7791f;
+  background: rgba(183,121,31,0.12);
+}
+
+.light-theme .rating-value {
   color: rgba(0,0,0,0.5);
 }
 
@@ -984,6 +1332,17 @@ footer {
 
 .light-theme .modal-content input::placeholder {
   color: rgba(0,0,0,0.3);
+}
+
+.light-theme .detail-body {
+  color: rgba(0,0,0,0.68);
+}
+
+.light-theme .detail-panel,
+.light-theme .detail-cover {
+  background-color: rgba(255,255,255,0.85);
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
 }
 
 .light-theme .modal-content input:focus {
@@ -1030,7 +1389,15 @@ footer {
 }
 
 .light-theme .hero {
-  background: radial-gradient(circle at top, rgba(46,163,255,0.08), transparent 65%);
+  background:
+    linear-gradient(rgba(240,244,250,0.58), rgba(240,244,250,0.92)),
+    url('https://images.unsplash.com/photo-1591115765373-52077643f9e2?w=1600') center/cover;
+}
+
+.light-theme .hero-highlights span {
+  color: rgba(0,0,0,0.68);
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(0,0,0,0.08);
 }
 
 .light-theme .glow-top {
@@ -1062,12 +1429,13 @@ footer {
 }
 
 .light-theme .footer-brand p,
-.light-theme .footer-links a,
+.light-theme .footer-contact,
+.light-theme .footer-contact a,
 .light-theme .footer-copy {
   color: rgba(0,0,0,0.4);
 }
 
-.light-theme .footer-links a:hover {
+.light-theme .footer-contact a:hover {
   color: #2ea3ff;
 }
 

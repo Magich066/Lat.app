@@ -14,11 +14,21 @@
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close-modal" id="closeLogin">&times;</span>
-      <h2 data-ru="Вход в аккаунт" data-en="Sign In">Вход в аккаунт</h2>
-      <input type="text" placeholder="Имя" data-ru-placeholder="Имя" data-en-placeholder="Name">
-      <input type="email" placeholder="Email" data-ru-placeholder="Email" data-en-placeholder="Email">
-      <input type="password" placeholder="Пароль" data-ru-placeholder="Пароль" data-en-placeholder="Password">
-      <button class="primary-btn" data-ru="Зарегистрироваться" data-en="Sign Up">Зарегистрироваться</button>
+      <div id="profileForm">
+        <h2 data-ru="Вход в аккаунт" data-en="Sign In">Вход в аккаунт</h2>
+        <input id="regName" type="text" placeholder="Имя" data-ru-placeholder="Имя" data-en-placeholder="Name">
+        <input id="regEmail" type="email" placeholder="Email" data-ru-placeholder="Email" data-en-placeholder="Email">
+        <input id="regPassword" type="password" placeholder="Пароль" data-ru-placeholder="Пароль" data-en-placeholder="Password">
+        <button class="primary-btn" id="registerBtn" data-ru="Зарегистрироваться" data-en="Sign Up">Зарегистрироваться</button>
+        <p class="form-message" id="registerMessage"></p>
+      </div>
+      <div id="profileInfo" style="display:none">
+        <h2 data-ru="Мой профиль" data-en="My Profile">Мой профиль</h2>
+        <div class="profile-detail"><span class="profile-label" data-ru="Имя:" data-en="Name:">Имя:</span> <span id="profileName"></span></div>
+        <div class="profile-detail"><span class="profile-label" data-ru="Email:" data-en="Email:">Email:</span> <span id="profileEmail"></span></div>
+        <div class="profile-detail"><span class="profile-label" data-ru="Дата:" data-en="Date:">Дата:</span> <span id="profileDate"></span></div>
+        <button class="secondary-btn" id="logoutBtn" data-ru="Выйти" data-en="Logout" style="margin-top:10px">Выйти</button>
+      </div>
     </div>
   </div>
 
@@ -50,6 +60,15 @@
     </div>
   </div>
 
+  <div class="modal detail-modal" id="detailModal">
+    <div class="modal-content detail-content">
+      <span class="close-modal" id="closeDetail">&times;</span>
+      <div class="detail-meta" id="detailMeta"></div>
+      <h2 id="detailTitle"></h2>
+      <div class="detail-body" id="detailBody"></div>
+    </div>
+  </div>
+
   <div class="glow glow-top"></div>
   <div class="glow glow-bottom"></div>
 
@@ -57,6 +76,7 @@
     <div class="logo">LATT.APP</div>
     <nav>
       <a href="#" class="nav-link active" data-tab="home-tab" data-ru="Главная" data-en="Home">Главная</a>
+      <a href="#" class="nav-link" data-tab="news-tab" data-ru="Новости" data-en="News">Новости</a>
       <a href="#" class="nav-link" data-tab="tournaments-tab" data-ru="Турниры" data-en="Tournaments">Турниры</a>
       <a href="#" class="nav-link" data-tab="sections-tab" data-ru="Секции" data-en="Sections">Секции</a>
       <a href="#" class="nav-link" data-tab="tips-tab" data-ru="Советы" data-en="Tips">Советы</a>
@@ -83,8 +103,13 @@
           Новости мировой борьбы, лучшие спортсмены, турниры, дисциплина и развитие чемпионского характера.
         </p>
         <div class="buttons">
-          <button class="primary-btn" data-ru="Новости" data-en="News">Новости</button>
-          <button class="secondary-btn" data-ru="Турниры" data-en="Tournaments">Турниры</button>
+          <button class="primary-btn" data-open-tab="news-tab" data-ru="Новости" data-en="News">Новости</button>
+          <button class="secondary-btn" data-open-tab="tournaments-tab" data-ru="Турниры" data-en="Tournaments">Турниры</button>
+        </div>
+        <div class="hero-highlights" aria-label="Преимущества академии">
+          <span data-ru="Индивидуальный подход" data-en="Personal coaching">Индивидуальный подход</span>
+          <span data-ru="Подготовка к турнирам" data-en="Tournament preparation">Подготовка к турнирам</span>
+          <span data-ru="Сильная дисциплина" data-en="Strong discipline">Сильная дисциплина</span>
         </div>
       </div>
     </section>
@@ -110,30 +135,36 @@
 
     <section class="section home-news">
       <div class="section-title fade-up">
-        <h2 data-ru="Новости мировой борьбы" data-en="World Wrestling News">Новости мировой борьбы</h2>
+        <h2 data-ru="Последние новости" data-en="Latest News">Последние новости</h2>
       </div>
-      <div class="cards">
-        <div class="card fade-up">
-          <div class="card-icon">&#127942;</div>
-          <h3 data-ru="Чемпионат мира" data-en="World Championship">Чемпионат мира</h3>
-          <p data-ru="Последние результаты международных турниров и соревнований по вольной борьбе." data-en="Latest results from international freestyle wrestling tournaments.">
-            Последние результаты международных турниров и соревнований по вольной борьбе.
-          </p>
-        </div>
-        <div class="card fade-up">
-          <div class="card-icon">&#11088;</div>
-          <h3 data-ru="Новые чемпионы" data-en="New Champions">Новые чемпионы</h3>
-          <p data-ru="Молодые борцы, которые становятся звёздами спорта." data-en="Young wrestlers rising to become sports stars.">
-            Молодые борцы, которые становятся звёздами спорта.
-          </p>
-        </div>
-        <div class="card fade-up">
-          <div class="card-icon">&#128170;</div>
-          <h3 data-ru="Тренировки" data-en="Training">Тренировки</h3>
-          <p data-ru="Современные методы подготовки профессиональных спортсменов." data-en="Modern training methods for professional athletes.">
-            Современные методы подготовки профессиональных спортсменов.
-          </p>
-        </div>
+      <div class="cards news-grid">
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Wrestrus</span>
+            <time datetime="2026-05-18">18.05.2026</time>
+          </div>
+          <h3 data-ru="Определились победители Мемориала Алиева" data-en="Ali Aliyev Memorial winners decided">Определились победители Мемориала Алиева</h3>
+          <p data-ru="В Каспийске завершился крупный международный турнир по вольной борьбе." data-en="The major freestyle wrestling tournament in Kaspiysk ended.">В Каспийске завершился крупный международный турнир по вольной борьбе.</p>
+          <a class="news-source" href="#" data-ru="Читать →" data-en="Read more →">Читать →</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Wrestrus</span>
+            <time datetime="2026-05-16">16.05.2026</time>
+          </div>
+          <h3 data-ru="Максим Монгуш выиграл первенство Европы U-17" data-en="Maksim Mongush wins European U-17 gold">Максим Монгуш выиграл первенство Европы U-17</h3>
+          <p data-ru="Российский юноша стал победителем в весе до 65 кг." data-en="Russian cadet won gold at 65 kg.">Российский юноша стал победителем в весе до 65 кг.</p>
+          <a class="news-source" href="#" data-ru="Читать →" data-en="Read more →">Читать →</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Ингушетия</span>
+            <time datetime="2026-04-15">15.04.2026</time>
+          </div>
+          <h3 data-ru="Борцы Ингушетии выступили во Владикавказе" data-en="Ingush wrestlers competed in Vladikavkaz">Борцы Ингушетии выступили во Владикавказе</h3>
+          <p data-ru="Сборная Ингушетии приняла участие в открытом турнире." data-en="The Ingushetia team competed at an open tournament.">Сборная Ингушетии приняла участие в открытом турнире.</p>
+          <a class="news-source" href="#" data-ru="Читать →" data-en="Read more →">Читать →</a>
+        </article>
       </div>
     </section>
 
@@ -143,13 +174,89 @@
       </div>
       <div class="partners-wrapper">
         <div class="partners-grid">
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
-          <div class="partner-box fade-up"><img src="https://placehold.co/250x120/0e1117/2ea3ff?text=PARTNER" alt="partner"></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>UWW</strong><span>United World Wrestling</span></div></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>FSBR</strong><span>Федерация борьбы</span></div></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>WRESTRUS</strong><span>Новости борьбы</span></div></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>MAGAS</strong><span>Борцовский зал</span></div></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>TEAM</strong><span>Сборы и турниры</span></div></div>
+          <div class="partner-box fade-up"><div class="partner-mark"><strong>COACH</strong><span>Тренерский штаб</span></div></div>
         </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="news-tab" class="tab-content">
+    <section class="section separate-page">
+      <div class="section-title fade-up">
+        <h2 data-ru="Все новости борьбы" data-en="All Wrestling News">Все новости борьбы</h2>
+      </div>
+      <div class="cards news-grid">
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Wrestrus</span>
+            <time datetime="2026-05-18">18.05.2026</time>
+          </div>
+          <h3 data-ru="Определились победители Мемориала Алиева" data-en="Ali Aliyev Memorial winners decided">Определились победители Мемориала Алиева</h3>
+          <p data-ru="В Каспийске завершился крупный международный турнир по вольной борьбе, где российские борцы забрали несколько золотых наград." data-en="The major freestyle wrestling tournament in Kaspiysk ended with Russian wrestlers taking several gold medals.">
+            В Каспийске завершился крупный международный турнир по вольной борьбе, где российские борцы забрали несколько золотых наград.
+          </p>
+          <a class="news-source" href="https://www.wrestrus.ru/news" target="_blank" rel="noopener" data-ru="Новости Wrestrus" data-en="Wrestrus news">Новости Wrestrus</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Wrestrus</span>
+            <time datetime="2026-05-17">17.05.2026</time>
+          </div>
+          <h3 data-ru="В Каспийске прошёл Мемориал Алиева" data-en="Ali Aliyev Memorial held in Kaspiysk">В Каспийске прошёл Мемориал Алиева</h3>
+          <p data-ru="56-й международный турнир памяти пятикратного чемпиона мира Али Алиева собрал сильных борцов вольного стиля 16-17 мая." data-en="The 56th international tournament in memory of five-time world champion Ali Aliyev brought together strong freestyle wrestlers on May 16-17.">
+            56-й международный турнир памяти пятикратного чемпиона мира Али Алиева собрал сильных борцов вольного стиля 16-17 мая.
+          </p>
+          <a class="news-source" href="https://www.wrestrus.ru/news/20701" target="_blank" rel="noopener" data-ru="Читать на Wrestrus" data-en="Read on Wrestrus">Читать на Wrestrus</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Wrestrus</span>
+            <time datetime="2026-05-16">16.05.2026</time>
+          </div>
+          <h3 data-ru="Максим Монгуш выиграл первенство Европы U-17" data-en="Maksim Mongush wins European U-17 gold">Максим Монгуш выиграл первенство Европы U-17</h3>
+          <p data-ru="Российский борец стал победителем в весовой категории до 65 кг. Осман Темирсултанов взял серебро, Асильдер Аслуев завоевал бронзу." data-en="The Russian wrestler won gold at 65 kg. Osman Temirsultanov took silver, and Asilder Asluev earned bronze.">
+            Российский борец стал победителем в весовой категории до 65 кг. Осман Темирсултанов взял серебро, Асильдер Аслуев завоевал бронзу.
+          </p>
+          <a class="news-source" href="https://www.wrestrus.ru/news/20693" target="_blank" rel="noopener" data-ru="Читать на Wrestrus" data-en="Read on Wrestrus">Читать на Wrestrus</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Ингушетия</span>
+            <time datetime="2026-04-15">15.04.2026</time>
+          </div>
+          <h3 data-ru="Борцы Ингушетии выступили во Владикавказе" data-en="Ingush wrestlers competed in Vladikavkaz">Борцы Ингушетии выступили во Владикавказе</h3>
+          <p data-ru="Сборная Ингушетии приняла участие в открытом турнире во Владикавказе; команду сопровождали тренеры Ислам Хамхоев, Усман Евлоев и Зелимхан Евлоев." data-en="The Ingushetia team competed at an open tournament in Vladikavkaz; the delegation included coaches Islam Khamkhoev, Usman Evloev and Zelimkhan Evloev.">
+            Сборная Ингушетии приняла участие в открытом турнире во Владикавказе; команду сопровождали тренеры Ислам Хамхоев, Усман Евлоев и Зелимхан Евлоев.
+          </p>
+          <a class="news-source" href="https://gazetaingush.ru/borcy-iz-ingushetii-uspeshno-vystupili-na-otkrytom-turnire-vo-vladikavkaze" target="_blank" rel="noopener" data-ru="Читать в газете Ингушетия" data-en="Read in Gazeta Ingush">Читать в газете Ингушетия</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Сердало</span>
+            <time datetime="2026-02-26">26.02.2026</time>
+          </div>
+          <h3 data-ru="Магомед-Тагир Ханиев завоевал серебро" data-en="Magomed-Tagir Khaniev wins silver">Магомед-Тагир Ханиев завоевал серебро</h3>
+          <p data-ru="Ингушский борец стал серебряным призёром рейтингового турнира «Мухаммед Мало» в весе до 97 кг, дойдя до финала после ярких побед." data-en="The Ingush wrestler won silver at the Muhamet Malo ranking tournament at 97 kg after a strong run to the final.">
+            Ингушский борец стал серебряным призёром рейтингового турнира «Мухаммед Мало» в весе до 97 кг, дойдя до финала после ярких побед.
+          </p>
+          <a class="news-source" href="https://serdalo.ru/magomed-tagir-xaniev-zavoeval-serebro-na-turnire-muxammed-malo" target="_blank" rel="noopener" data-ru="Читать в Сердало" data-en="Read in Serdalo">Читать в Сердало</a>
+        </article>
+        <article class="card news-card fade-up">
+          <div class="news-meta">
+            <span>Сердало</span>
+            <time datetime="2026-02-15">15.02.2026</time>
+          </div>
+          <h3 data-ru="Зелимхан Чаниев отличился на первенстве России" data-en="Zelimkhan Chaniev shines at Russian junior nationals">Зелимхан Чаниев отличился на первенстве России</h3>
+          <p data-ru="Представитель Ингушетии успешно выступил на первенстве России по вольной борьбе среди юниоров до 21 года во Владикавказе." data-en="The Ingushetia representative delivered a strong performance at the Russian U-21 freestyle wrestling championship in Vladikavkaz.">
+            Представитель Ингушетии успешно выступил на первенстве России по вольной борьбе среди юниоров до 21 года во Владикавказе.
+          </p>
+          <a class="news-source" href="https://serdalo.ru/ingusskii-borec-dobilsya-potryasayushhego-rezultata-na-pervenstve-rossii" target="_blank" rel="noopener" data-ru="Читать в Сердало" data-en="Read in Serdalo">Читать в Сердало</a>
+        </article>
       </div>
     </section>
   </div>
@@ -160,38 +267,54 @@
         <h2 data-ru="Турниры и соревнования" data-en="Tournaments & Events">Турниры и соревнования</h2>
       </div>
       <div class="tournament-grid">
-        <div class="tournament-card fade-up">
-          <div class="tournament-date">12 Авг</div>
-          <h3 data-ru="Чемпионат Ингушетии" data-en="Ingushetia Championship">Чемпионат Ингушетии</h3>
-          <p data-ru="Крупный турнир по вольной борьбе среди молодых спортсменов." data-en="Major freestyle wrestling tournament for young athletes.">
-            Крупный турнир по вольной борьбе среди молодых спортсменов.
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">16-17 мая 2026</div>
+          <h3 data-ru="Мемориал Али Алиева" data-en="Ali Aliyev Memorial">Мемориал Али Алиева</h3>
+          <p data-ru="56-й международный турнир по вольной борьбе прошёл в Каспийске и собрал сильных спортсменов из России и других стран." data-en="The 56th international freestyle wrestling tournament was held in Kaspiysk and gathered strong athletes from Russia and abroad.">
+            56-й международный турнир по вольной борьбе прошёл в Каспийске и собрал сильных спортсменов из России и других стран.
           </p>
-          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
-        </div>
-        <div class="tournament-card fade-up">
-          <div class="tournament-date">26 Сент</div>
-          <h3 data-ru="Международный турнир" data-en="International Tournament">Международный турнир</h3>
-          <p data-ru="Турнир с участием спортсменов из разных регионов." data-en="Tournament featuring athletes from various regions.">
-            Турнир с участием спортсменов из разных регионов.
+          <a class="news-source" href="https://www.wrestrus.ru/news/20701" target="_blank" rel="noopener" data-ru="Источник" data-en="Source">Источник</a>
+        </article>
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">май 2026</div>
+          <h3 data-ru="Первенство Европы U-17" data-en="European U-17 Championship">Первенство Европы U-17</h3>
+          <p data-ru="Российские юноши успешно выступили на европейском первенстве: Максим Монгуш взял золото, Осман Темирсултанов - серебро." data-en="Russian cadets performed strongly at the European championship: Maksim Mongush won gold, Osman Temirsultanov took silver.">
+            Российские юноши успешно выступили на европейском первенстве: Максим Монгуш взял золото, Осман Темирсултанов - серебро.
           </p>
-          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
-        </div>
-        <div class="tournament-card fade-up">
-          <div class="tournament-date">10 Окт</div>
-          <h3 data-ru="Юношеский чемпионат" data-en="Youth Championship">Юношеский чемпионат</h3>
-          <p data-ru="Соревнования среди юниоров и молодых борцов." data-en="Competitions for juniors and young wrestlers.">
-            Соревнования среди юниоров и молодых борцов.
+          <a class="news-source" href="https://www.wrestrus.ru/news/20693" target="_blank" rel="noopener" data-ru="Источник" data-en="Source">Источник</a>
+        </article>
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">февраль 2026</div>
+          <h3 data-ru="Турнир «Мухаммед Мало»" data-en="Muhamet Malo Tournament">Турнир «Мухаммед Мало»</h3>
+          <p data-ru="Ингушский борец Магомед-Тагир Ханиев дошёл до финала рейтингового турнира в весовой категории до 97 кг и завоевал серебро." data-en="Ingush wrestler Magomed-Tagir Khaniev reached the final of the ranking tournament at 97 kg and won silver.">
+            Ингушский борец Магомед-Тагир Ханиев дошёл до финала рейтингового турнира в весовой категории до 97 кг и завоевал серебро.
           </p>
-          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
-        </div>
-        <div class="tournament-card fade-up">
-          <div class="tournament-date">15 Нояб</div>
-          <h3 data-ru="Кубок Кавказа" data-en="Caucasus Cup">Кубок Кавказа</h3>
-          <p data-ru="Ежегодный турнир среди сильнейших борцов региона." data-en="Annual tournament among the region's strongest wrestlers.">
-            Ежегодный турнир среди сильнейших борцов региона.
+          <a class="news-source" href="https://serdalo.ru/magomed-tagir-xaniev-zavoeval-serebro-na-turnire-muxammed-malo" target="_blank" rel="noopener" data-ru="Источник" data-en="Source">Источник</a>
+        </article>
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">февраль 2026</div>
+          <h3 data-ru="Первенство России до 21 года" data-en="Russian U-21 Championship">Первенство России до 21 года</h3>
+          <p data-ru="Во Владикавказе прошли соревнования юниоров, где представитель Ингушетии Зелимхан Чаниев показал сильный результат." data-en="The junior championship in Vladikavkaz featured a strong performance by Ingushetia representative Zelimkhan Chaniev.">
+            Во Владикавказе прошли соревнования юниоров, где представитель Ингушетии Зелимхан Чаниев показал сильный результат.
           </p>
-          <button class="primary-btn" data-ru="Подробнее" data-en="Details">Подробнее</button>
-        </div>
+          <a class="news-source" href="https://serdalo.ru/ingusskii-borec-dobilsya-potryasayushhego-rezultata-na-pervenstve-rossii" target="_blank" rel="noopener" data-ru="Источник" data-en="Source">Источник</a>
+        </article>
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">6 февраля 2026</div>
+          <h3 data-ru="Первенство России в Назрани" data-en="Russian championship in Nazran">Первенство России в Назрани</h3>
+          <p data-ru="Во Дворце спорта «Магас» имени Берда Евлоева завершилось первенство России по греко-римской борьбе; ингушские борцы клуба «Ади Ахмад» завоевали медали." data-en="The Russian Greco-Roman wrestling championship ended at the Magas Palace of Sports named after Berd Evloev; Ingush wrestlers from Adi Ahmad club won medals.">
+            Во Дворце спорта «Магас» имени Берда Евлоева завершилось первенство России по греко-римской борьбе; ингушские борцы клуба «Ади Ахмад» завоевали медали.
+          </p>
+          <a class="news-source" href="https://minsportri.ru/news/4994-v-ingushetii-zavershilos-pervenstvo-rossii-po-greko-rimskoi-borbe.html" target="_blank" rel="noopener" data-ru="Минспорт РИ" data-en="Ingushetia sports ministry">Минспорт РИ</a>
+        </article>
+        <article class="tournament-card fade-up">
+          <div class="tournament-date">2026</div>
+          <h3 data-ru="Кавказские турниры по вольной борьбе" data-en="Caucasus freestyle tournaments">Кавказские турниры по вольной борьбе</h3>
+          <p data-ru="Каспийск, Владикавказ, Грозный и Назрань остаются важными площадками для борцов Северного Кавказа." data-en="Kaspiysk, Vladikavkaz, Grozny and Nazran remain important venues for North Caucasus wrestlers.">
+            Каспийск, Владикавказ, Грозный и Назрань остаются важными площадками для борцов Северного Кавказа.
+          </p>
+          <a class="news-source" href="https://www.wrestrus.ru/news" target="_blank" rel="noopener" data-ru="Новости турниров" data-en="Tournament news">Новости турниров</a>
+        </article>
       </div>
     </section>
   </div>
@@ -202,45 +325,102 @@
         <h2 data-ru="Наши борцы" data-en="Our Fighters">Наши борцы</h2>
       </div>
       <div class="fighter-grid">
-        <div class="fighter-card fade-up">
-          <div class="fighter-img" style="background-image: url('https://masterpiecer-images.s3.yandex.net/4b9fe7d583c211eebd093abd0be4d755:upscaled')"></div>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/sadulaev/400/500')">Абдулрашид<br>Садулаев</div>
           <div class="fighter-info">
-            <h3>Гилани</h3>
-            <p data-ru="Чемпион Ингушетии по вольной борьбе. Мастер спорта, победитель международных турниров." data-en="Ingushetia freestyle wrestling champion. Master of Sports, winner of international tournaments.">
-              Чемпион Ингушетии по вольной борьбе. Мастер спорта, победитель международных турниров.
-            </p>
-            <div class="fighter-stats">
-              <span data-ru="Побед: 24" data-en="Wins: 24">Побед: 24</span>
-              <span data-ru="Поражений: 3" data-en="Losses: 3">Поражений: 3</span>
-            </div>
+            <h3>Абдулрашид Садулаев</h3>
+            <p data-ru="Дагестанский борец вольного стиля, двукратный олимпийский чемпион, многократный чемпион мира и Европы. Один из главных лидеров сборной России." data-en="Dagestani freestyle wrestler, two-time Olympic champion, multiple world and European champion. One of Russia's leading wrestlers.">Дагестанский борец вольного стиля, двукратный олимпийский чемпион, многократный чемпион мира и Европы. Один из главных лидеров сборной России.</p>
+            <div class="fighter-stats"><span>Дагестан</span><span>97 кг</span><span>3х ОЧ</span><span>6х ЧМ</span></div>
           </div>
-        </div>
-        <div class="fighter-card fade-up">
-          <div class="fighter-img" style="background-image: url('https://placehold.co/600x800/0e1117/2ea3ff?text=FIGHTER')"></div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/sidakov/400/500')">Заурбек<br>Сидаков</div>
           <div class="fighter-info">
-            <h3 data-ru="Имя Борца" data-en="Fighter Name">Имя Борца</h3>
-            <p data-ru="Информация о спортсмене, турнирах и опыте." data-en="Information about the athlete, tournaments, and experience.">
-              Информация о спортсмене, турнирах и опыте.
-            </p>
-            <div class="fighter-stats">
-              <span data-ru="Побед: 18" data-en="Wins: 18">Побед: 18</span>
-              <span data-ru="Поражений: 5" data-en="Losses: 5">Поражений: 5</span>
-            </div>
+            <h3>Заурбек Сидаков</h3>
+            <p data-ru="Представитель Осетии, олимпийский чемпион Токио и многократный чемпион мира в весе до 74 кг. Известен сильной тактикой и борьбой в концовках." data-en="Ossetian wrestler, Tokyo Olympic champion and multiple world champion at 74 kg. Known for tactics and strong finishes.">Представитель Осетии, олимпийский чемпион Токио и многократный чемпион мира в весе до 74 кг. Известен сильной тактикой и борьбой в концовках.</p>
+            <div class="fighter-stats"><span>Осетия</span><span>74 кг</span><span>1х ОЧ</span><span>3х ЧМ</span></div>
           </div>
-        </div>
-        <div class="fighter-card fade-up">
-          <div class="fighter-img" style="background-image: url('https://placehold.co/600x800/0e1117/2ea3ff?text=FIGHTER')"></div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/uguev/400/500')">Заур<br>Угуев</div>
           <div class="fighter-info">
-            <h3 data-ru="Имя Борца" data-en="Fighter Name">Имя Борца</h3>
-            <p data-ru="Здесь будет полная информация о спортсмене." data-en="Full information about the athlete will be here.">
-              Здесь будет полная информация о спортсмене.
-            </p>
-            <div class="fighter-stats">
-              <span data-ru="Побед: 12" data-en="Wins: 12">Побед: 12</span>
-              <span data-ru="Поражений: 2" data-en="Losses: 2">Поражений: 2</span>
-            </div>
+            <h3>Заур Угуев</h3>
+            <p data-ru="Борец из Дагестана, олимпийский чемпион и чемпион мира в лёгкой весовой категории. Отличается скоростью, проходами в ноги и стабильностью." data-en="Dagestani wrestler, Olympic and world champion in a light weight class. Known for speed, leg attacks and consistency.">Борец из Дагестана, олимпийский чемпион и чемпион мира в лёгкой весовой категории. Отличается скоростью, проходами в ноги и стабильностью.</p>
+            <div class="fighter-stats"><span>Дагестан</span><span>57 кг</span><span>1х ОЧ</span><span>2х ЧМ</span></div>
           </div>
-        </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/saytiev/400/500')">Бувайсар<br>Сайтиев</div>
+          <div class="fighter-info">
+            <h3>Бувайсар Сайтиев</h3>
+            <p data-ru="Легендарный чеченский борец, трёхкратный олимпийский чемпион и многократный чемпион мира. Считается одним из величайших борцов в истории." data-en="Legendary Chechen wrestler, three-time Olympic champion and multiple world champion. Considered one of the greatest wrestlers ever.">Легендарный чеченский борец, трёхкратный олимпийский чемпион и многократный чемпион мира. Считается одним из величайших борцов в истории.</p>
+            <div class="fighter-stats"><span>Чечня</span><span>74 кг</span><span>3х ОЧ</span><span>6х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.12), rgba(5,8,22,0.76)), url('https://picsum.photos/seed/naifonov/400/500')">Артур<br>Найфонов</div>
+          <div class="fighter-info">
+            <h3>Артур Найфонов</h3>
+            <p data-ru="Осетинский борец вольного стиля, призёр Олимпийских игр и чемпион Европы. Выступает в среднем весе и известен силовой борьбой." data-en="Ossetian freestyle wrestler, Olympic medalist and European champion. Competes in middle weight classes and is known for powerful wrestling.">Осетинский борец вольного стиля, призёр Олимпийских игр и чемпион Европы. Выступает в среднем весе и известен силовой борьбой.</p>
+            <div class="fighter-stats"><span>Осетия</span><span>86 кг</span><span>1х ОИ</span><span>1х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/batirov/400/500')">Мавлет<br>Батиров</div>
+          <div class="fighter-info">
+            <h3>Мавлет Батиров</h3>
+            <p data-ru="Дагестанский борец, двукратный олимпийский чемпион. Выступал в лёгких весах и известен взрывной техникой атак." data-en="Dagestani wrestler and two-time Olympic champion. Competed in lighter divisions and was known for explosive attacks.">Дагестанский борец, двукратный олимпийский чемпион. Выступал в лёгких весах и известен взрывной техникой атак.</p>
+            <div class="fighter-stats"><span>Дагестан</span><span>55/60 кг</span><span>2х ОЧ</span><span>3х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/FreestyleWrestling2.jpg')">Бесик<br>Кудухов</div>
+          <div class="fighter-info">
+            <h3>Бесик Кудухов</h3>
+            <p data-ru="Осетинский борец, многократный чемпион мира и призёр Олимпийских игр. Запомнился высоким темпом и яркой атакующей манерой." data-en="Ossetian wrestler, multiple world champion and Olympic medalist. Remembered for high pace and attacking style.">Осетинский борец, многократный чемпион мира и призёр Олимпийских игр. Запомнился высоким темпом и яркой атакующей манерой.</p>
+            <div class="fighter-stats"><span>Осетия</span><span>60 кг</span><span>1х ОИ</span><span>3х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/gatsalov/400/500')">Хаджимурад<br>Гацалов</div>
+          <div class="fighter-info">
+            <h3>Хаджимурад Гацалов</h3>
+            <p data-ru="Борец из Северной Осетии, олимпийский чемпион Афин и многократный чемпион мира. Выступал в тяжёлых весовых категориях." data-en="North Ossetian wrestler, Athens Olympic champion and multiple world champion. Competed in heavier weight classes.">Борец из Северной Осетии, олимпийский чемпион Афин и многократный чемпион мира. Выступал в тяжёлых весовых категориях.</p>
+            <div class="fighter-stats"><span>Осетия</span><span>96/120 кг</span><span>1х ОЧ</span><span>5х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/ramonov/400/500')">Сослан<br>Рамонов</div>
+          <div class="fighter-info">
+            <h3>Сослан Рамонов</h3>
+            <p data-ru="Осетинский борец вольного стиля, олимпийский чемпион Рио-2016 в весе до 65 кг. Известен скоростной борьбой и гибкой техникой." data-en="Ossetian freestyle wrestler, Rio 2016 Olympic champion at 65 kg. Known for speed and flexible technique.">Осетинский борец вольного стиля, олимпийский чемпион Рио-2016 в весе до 65 кг. Известен скоростной борьбой и гибкой техникой.</p>
+            <div class="fighter-stats"><span>Осетия</span><span>65 кг</span><span>1х ОЧ</span><span>1х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/evloev/400/500')">Муса<br>Евлоев</div>
+          <div class="fighter-info">
+            <h3>Муса Евлоев</h3>
+            <p data-ru="Ингушский борец греко-римского стиля, олимпийский чемпион Токио и двукратный чемпион мира. Один из самых титулованных спортсменов Ингушетии." data-en="Ingush Greco-Roman wrestler, Tokyo Olympic champion and two-time world champion. One of Ingushetia's most decorated athletes.">Ингушский борец греко-римского стиля, олимпийский чемпион Токио и двукратный чемпион мира. Один из самых титулованных спортсменов Ингушетии.</p>
+            <div class="fighter-stats"><span>Ингушетия</span><span>97 кг</span><span>1х ОЧ</span><span>2х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/gazimagomedov/400/500')">Магомедрасул<br>Газимагомедов</div>
+          <div class="fighter-info">
+            <h3>Магомедрасул Газимагомедов</h3>
+            <p data-ru="Дагестанский борец вольного стиля, чемпион мира. Выступает в средних весах и известен мощной физикой и контролем позиции." data-en="Dagestani freestyle wrestler and world champion. Competes in middle weights and is known for strength and positional control.">Дагестанский борец вольного стиля, чемпион мира. Выступает в средних весах и известен мощной физикой и контролем позиции.</p>
+            <div class="fighter-stats"><span>Дагестан</span><span>70/74 кг</span><span>1х ЧМ</span></div>
+          </div>
+        </article>
+        <article class="fighter-card fade-up">
+          <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('https://picsum.photos/seed/khaniev/400/500')">Магомед-Тагир<br>Ханиев</div>
+          <div class="fighter-info">
+            <h3>Магомед-Тагир Ханиев</h3>
+            <p data-ru="Ингушский борец вольного стиля. В 2026 году стал серебряным призёром рейтингового турнира «Мухаммед Мало» в весе до 97 кг." data-en="Ingush freestyle wrestler. In 2026 he won silver at the Muhamet Malo ranking tournament at 97 kg.">Ингушский борец вольного стиля. В 2026 году стал серебряным призёром рейтингового турнира «Мухаммед Мало» в весе до 97 кг.</p>
+            <div class="fighter-stats"><span>Ингушетия</span><span>97 кг</span><span>серебро 2026</span></div>
+          </div>
+        </article>
       </div>
     </section>
   </div>
@@ -251,27 +431,60 @@
         <h2 data-ru="Секции" data-en="Sections">Секции</h2>
       </div>
       <div class="training-grid">
-        <div class="training-box fade-up">
-          <div class="training-icon">&#128118;</div>
-          <h3 data-ru="Дети" data-en="Children">Дети</h3>
-          <p data-ru="Начальная подготовка и физическое развитие. Возраст 6–12 лет." data-en="Basic training and physical development. Ages 6–12.">
-            Начальная подготовка и физическое развитие. Возраст 6–12 лет.
-          </p>
-        </div>
-        <div class="training-box fade-up">
-          <div class="training-icon">&#128170;</div>
-          <h3 data-ru="Подростки" data-en="Teens">Подростки</h3>
-          <p data-ru="Развитие техники и участие в соревнованиях. Возраст 13–17 лет." data-en="Technique development and competition participation. Ages 13–17.">
-            Развитие техники и участие в соревнованиях. Возраст 13–17 лет.
-          </p>
-        </div>
-        <div class="training-box fade-up">
+        <article class="training-box section-card fade-up" data-section-id="adi-ahmad-troitskaya">
+          <div class="training-icon">&#129340;</div>
+          <h3 data-ru="СК «Ади Ахмад»" data-en="Adi Ahmad sports club">СК «Ади Ахмад»</h3>
+          <p data-ru="Ингушский спортивный клуб и школа борьбы, чьи воспитанники регулярно выступают на первенствах России и республиканских турнирах." data-en="Ingush sports club and wrestling school whose athletes regularly compete at Russian championships and republican tournaments.">Ингушский спортивный клуб и школа борьбы, чьи воспитанники регулярно выступают на первенствах России и республиканских турнирах.</p>
+          <div class="section-meta"><span>Троицкая</span><span>дети и юниоры</span></div>
+          <div class="rating" data-rating>
+            <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
+          </div>
+          <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
+        </article>
+        <article class="training-box section-card fade-up" data-section-id="nesterovskaya-wrestling">
           <div class="training-icon">&#127947;</div>
-          <h3 data-ru="Профессионалы" data-en="Professionals">Профессионалы</h3>
-          <p data-ru="Интенсивные тренировки высокого уровня. Для опытных спортсменов." data-en="High-intensity advanced training for experienced athletes.">
-            Интенсивные тренировки высокого уровня. Для опытных спортсменов.
+          <h3 data-ru="Борцовская секция Нестеровской" data-en="Nesterovskaya wrestling section">Борцовская секция Нестеровской</h3>
+          <p data-ru="Команды из Нестеровской упоминались среди призёров юношеского первенства Ингушетии по борьбе. Формат подходит для школьников." data-en="Teams from Nesterovskaya were mentioned among medalists of Ingushetia's youth wrestling championship. The format suits school students.">Команды из Нестеровской упоминались среди призёров юношеского первенства Ингушетии по борьбе. Формат подходит для школьников.</p>
+          <div class="section-meta"><span>Нестеровская</span><span>школьники</span></div>
+          <div class="rating" data-rating>
+            <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
+          </div>
+          <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
+        </article>
+        <article class="training-box section-card fade-up" data-section-id="surkhakhi-wrestling">
+          <div class="training-icon">&#128170;</div>
+          <h3 data-ru="Борцовская секция Сурхахи" data-en="Surkhakhi wrestling section">Борцовская секция Сурхахи</h3>
+          <p data-ru="Сурхахи Назрановского района фигурирует в результатах юношеских соревнований Ингушетии; секция ориентирована на базовую подготовку." data-en="Surkhakhi in Nazran district appears in Ingushetia youth wrestling results; the section is focused on basic preparation.">Сурхахи Назрановского района фигурирует в результатах юношеских соревнований Ингушетии; секция ориентирована на базовую подготовку.</p>
+          <div class="section-meta"><span>Сурхахи</span><span>начальная подготовка</span></div>
+          <div class="rating" data-rating>
+            <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
+          </div>
+          <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
+        </article>
+        <article class="training-box section-card fade-up" data-section-id="nazran-wrestling">
+          <div class="training-icon">&#127942;</div>
+          <h3 data-ru="ДС «Магас» Назрань" data-en="Magas Sports Palace Nazran">ДС «Магас» Назрань</h3>
+          <p data-ru="Дворец спорта имени Берда Евлоева. Крупная площадка для турниров по греко-римской и вольной борьбе, где проходят первенства России." data-en="Berd Evloev Sports Palace. A major venue for Greco-Roman and freestyle wrestling tournaments, hosting Russian championships.">
+            Дворец спорта имени Берда Евлоева. Крупная площадка для турниров по греко-римской и вольной борьбе, где проходят первенства России.
           </p>
-        </div>
+          <div class="section-meta"><span>Назрань</span><span>все возраста</span><span>турниры</span></div>
+          <div class="rating" data-rating>
+            <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
+          </div>
+          <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
+        </article>
+        <article class="training-box section-card fade-up" data-section-id="karabulak-wrestling">
+          <div class="training-icon">&#127947;</div>
+          <h3 data-ru="Борцовский зал Карабулак" data-en="Karabulak Wrestling Gym">Борцовский зал Карабулак</h3>
+          <p data-ru="Секция вольной борьбы в Карабулаке. Тренировки для детей и взрослых, подготовка к республиканским соревнованиям." data-en="Freestyle wrestling section in Karabulak. Training for children and adults, preparation for republican competitions.">
+            Секция вольной борьбы в Карабулаке. Тренировки для детей и взрослых, подготовка к республиканским соревнованиям.
+          </p>
+          <div class="section-meta"><span>Карабулак</span><span>дети и взрослые</span></div>
+          <div class="rating" data-rating>
+            <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
+          </div>
+          <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
+        </article>
       </div>
     </section>
   </div>
@@ -282,23 +495,67 @@
         <h2 data-ru="Советы" data-en="Tips">Советы</h2>
       </div>
       <div class="tips-container">
-        <div class="tip-card fade-up">
-          <h3 data-ru="Для родителей" data-en="For Parents">Для родителей</h3>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Родителям: поддержка без давления" data-en="Parents: support without pressure">Родителям: поддержка без давления</h3>
           <ul>
-            <li data-ru="Поддерживайте ребёнка морально." data-en="Support your child emotionally.">Поддерживайте ребёнка морально.</li>
-            <li data-ru="Следите за режимом сна и питания." data-en="Monitor sleep and nutrition.">Следите за режимом сна и питания.</li>
-            <li data-ru="Не давите результатами." data-en="Don't pressure for results.">Не давите результатами.</li>
-            <li data-ru="Поощряйте дисциплину и трудолюбие." data-en="Encourage discipline and hard work.">Поощряйте дисциплину и трудолюбие.</li>
+            <li data-ru="Хвалите ребёнка за дисциплину и старание, а не только за медали." data-en="Praise discipline and effort, not only medals.">Хвалите ребёнка за дисциплину и старание, а не только за медали.</li>
+            <li data-ru="После поражения сначала дайте ему успокоиться, потом спокойно разберите схватку." data-en="After a loss, let them calm down first, then review the bout calmly.">После поражения сначала дайте ему успокоиться, потом спокойно разберите схватку.</li>
+            <li data-ru="Не сравнивайте ребёнка с другими борцами: сравнивайте его с ним вчерашним." data-en="Do not compare your child with other wrestlers: compare them with yesterday's self.">Не сравнивайте ребёнка с другими борцами: сравнивайте его с ним вчерашним.</li>
           </ul>
-        </div>
-        <div class="tip-card fade-up">
-          <h3 data-ru="Для борцов" data-en="For Fighters">Для борцов</h3>
+        </article>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Родителям: режим и восстановление" data-en="Parents: routine and recovery">Родителям: режим и восстановление</h3>
           <ul>
-            <li data-ru="Будьте дисциплинированными." data-en="Be disciplined.">Будьте дисциплинированными.</li>
-            <li data-ru="Не пропускайте тренировки." data-en="Never skip training.">Не пропускайте тренировки.</li>
-            <li data-ru="Работайте над характером." data-en="Work on your character.">Работайте над характером.</li>
-            <li data-ru="Всегда уважайте соперника." data-en="Always respect your opponent.">Всегда уважайте соперника.</li>
+            <li data-ru="Следите за сном: юному спортсмену нужен стабильный график." data-en="Watch sleep: a young athlete needs a stable schedule.">Следите за сном: юному спортсмену нужен стабильный график.</li>
+            <li data-ru="Питание должно быть регулярным: вода, белок, крупы, овощи, без жёстких диет." data-en="Nutrition should be regular: water, protein, grains, vegetables, no harsh diets.">Питание должно быть регулярным: вода, белок, крупы, овощи, без жёстких диет.</li>
+            <li data-ru="Если есть боль или травма, не заставляйте тренироваться через неё." data-en="If there is pain or injury, do not force training through it.">Если есть боль или травма, не заставляйте тренироваться через неё.</li>
           </ul>
+        </article>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Родителям: контакт с тренером" data-en="Parents: contact with the coach">Родителям: контакт с тренером</h3>
+          <ul>
+            <li data-ru="Обсуждайте цели с тренером: здоровье, техника, соревнования, весовая категория." data-en="Discuss goals with the coach: health, technique, competitions and weight class.">Обсуждайте цели с тренером: здоровье, техника, соревнования, весовая категория.</li>
+            <li data-ru="Не вмешивайтесь в подсказки во время схватки, если тренер уже ведёт спортсмена." data-en="Do not interfere with corner advice during a bout when the coach is guiding the athlete.">Не вмешивайтесь в подсказки во время схватки, если тренер уже ведёт спортсмена.</li>
+            <li data-ru="Регулярно спрашивайте не только про результат, но и про поведение на тренировках." data-en="Ask not only about results, but also about behavior at practice.">Регулярно спрашивайте не только про результат, но и про поведение на тренировках.</li>
+          </ul>
+        </article>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Вольникам: база техники" data-en="Freestylers: technical base">Вольникам: база техники</h3>
+          <ul>
+            <li data-ru="Каждую тренировку отрабатывайте стойку, дистанцию и защиту ног." data-en="Every practice, work on stance, distance and leg defense.">Каждую тренировку отрабатывайте стойку, дистанцию и защиту ног.</li>
+            <li data-ru="Проход в ноги должен заканчиваться контролем, а не только касанием." data-en="A leg attack should finish with control, not just a touch.">Проход в ноги должен заканчиваться контролем, а не только касанием.</li>
+            <li data-ru="Учитесь бороться у края ковра: там часто решается счёт." data-en="Learn to wrestle near the edge: scores are often decided there.">Учитесь бороться у края ковра: там часто решается счёт.</li>
+          </ul>
+        </article>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Вольникам: физика и дисциплина" data-en="Freestylers: conditioning and discipline">Вольникам: физика и дисциплина</h3>
+          <ul>
+            <li data-ru="Развивайте шею, корпус, хват и выносливость, но не забывайте про гибкость." data-en="Build neck, core, grip and endurance, but do not forget flexibility.">Развивайте шею, корпус, хват и выносливость, но не забывайте про гибкость.</li>
+            <li data-ru="Ведите дневник веса, самочувствия и тренировочной нагрузки." data-en="Keep a log of weight, wellbeing and training load.">Ведите дневник веса, самочувствия и тренировочной нагрузки.</li>
+            <li data-ru="Стабильность важнее редких тяжёлых рывков: тренируйтесь системно." data-en="Consistency matters more than rare hard bursts: train systematically.">Стабильность важнее редких тяжёлых рывков: тренируйтесь системно.</li>
+          </ul>
+        </article>
+        <article class="tip-card fade-up">
+          <h3 data-ru="Вольникам: соревнования" data-en="Freestylers: competitions">Вольникам: соревнования</h3>
+          <ul>
+            <li data-ru="Перед стартом заранее проверьте вес, форму, документы и расписание." data-en="Before an event, check weight, uniform, documents and schedule in advance.">Перед стартом заранее проверьте вес, форму, документы и расписание.</li>
+            <li data-ru="Разминка должна включать пот, дыхание, реакции и несколько привычных атак." data-en="Warm-up should include sweat, breathing, reactions and several familiar attacks.">Разминка должна включать пот, дыхание, реакции и несколько привычных атак.</li>
+            <li data-ru="После турнира запишите 2 ошибки и 2 сильных действия, чтобы знать, что улучшать." data-en="After a tournament, write down 2 mistakes and 2 strong actions so you know what to improve.">После турнира запишите 2 ошибки и 2 сильных действия, чтобы знать, что улучшать.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <div id="detail-tab" class="tab-content">
+    <section class="section separate-page detail-page">
+      <button class="secondary-btn detail-back" id="detailBack" data-ru="Назад" data-en="Back">Назад</button>
+      <div class="detail-layout">
+        <div class="detail-cover" id="detailCover"></div>
+        <div class="detail-panel">
+          <div class="detail-meta" id="pageDetailMeta"></div>
+          <h2 id="pageDetailTitle"></h2>
+          <div class="detail-body" id="pageDetailBody"></div>
         </div>
       </div>
     </section>
@@ -310,11 +567,10 @@
         <div class="logo">LATT.APP</div>
         <p data-ru="Академия вольной борьбы" data-en="Freestyle Wrestling Academy">Академия вольной борьбы</p>
       </div>
-      <div class="footer-links">
-        <a href="#" data-ru="Главная" data-en="Home">Главная</a>
-        <a href="#" data-ru="Турниры" data-en="Tournaments">Турниры</a>
-        <a href="#" data-ru="Секции" data-en="Sections">Секции</a>
-        <a href="#" data-ru="Контакты" data-en="Contacts">Контакты</a>
+      <div class="footer-contact">
+        <span data-ru="Тренировки каждый день" data-en="Training every day">Тренировки каждый день</span>
+        <a href="tel:+79990000000">+7 999 000-00-00</a>
+        <a href="mailto:info@latt.app">info@latt.app</a>
       </div>
     </div>
     <p class="footer-copy">&copy; 2026 Wrestling Academy</p>
