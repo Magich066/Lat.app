@@ -296,17 +296,17 @@ const wrestlingImages = Object.freeze({
   youthMat: 'images/wrestling-youth.svg',
   gym: 'images/wrestling-gym.svg',
   teamWarmup: 'images/wrestling-team.svg',
-  sadulaev: 'images/sadulaev.png',
-  sidakov: 'images/sidakov.png',
-  uguev: 'images/uguev.png',
-  saytiyev: 'images/saytiev.png',
-  naifonov: 'images/naifonov.png',
-  batirov: 'images/batirov.png',
-  gatsalov: 'images/gatsalov.png',
-  ramonov: 'images/ramonov.png',
-  mevloev: 'images/mevloev.png',
-  tsokaev: 'images/tsokaev.png',
-  kudukhov: 'images/kudukhov.png'
+  sadulaev: 'images/sadulaev.svg',
+  sidakov: 'images/sidakov.svg',
+  uguev: 'images/uguev.svg',
+  saytiyev: 'images/saytiev.svg',
+  naifonov: 'images/naifonov.svg',
+  batirov: 'images/batirov.svg',
+  gatsalov: 'images/gatsalov.svg',
+  ramonov: 'images/ramonov.svg',
+  mevloev: 'images/mevloev.svg',
+  tsokaev: 'images/tsokaev.svg',
+  kudukhov: 'images/kudukhov.svg'
 });
 
 const defaultDetail = Object.freeze({
