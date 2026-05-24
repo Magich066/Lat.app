@@ -728,6 +728,15 @@ function detailFor(card) {
 }
 
 function imageFrom(card) {
+  if (card.classList.contains('fighter-card')) {
+    const imageNode = card.querySelector('.fighter-img');
+    if (imageNode) {
+      const inline = imageNode.style.backgroundImage;
+      const match = inline.match(/url\(["']?([^"')]+)["']?\)/);
+      if (match) return match[1];
+    }
+  }
+
   const details = detailFor(card);
   if (details.image) return details.image;
 
