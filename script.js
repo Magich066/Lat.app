@@ -289,30 +289,28 @@ function paragraphsToHtml(paragraphs) {
     .join('');
 }
 
-const picsum = seed => `images/${seed}.svg`;
-
 const wrestlingImages = Object.freeze({
-  action: picsum('wrestling-action'),
-  olympicFinal: picsum('wrestling-final'),
-  matTraining: picsum('wrestling-training'),
-  youthMat: picsum('wrestling-youth'),
-  gym: picsum('wrestling-gym'),
-  teamWarmup: picsum('wrestling-team'),
-  sadulaev: picsum('sadulaev'),
-  sidakov: picsum('sidakov'),
-  uguev: picsum('uguev'),
-  saytiyev: picsum('saytiev'),
-  naifonov: picsum('naifonov'),
-  batirov: picsum('batirov'),
-  gatsalov: picsum('gatsalov'),
-  ramonov: picsum('ramonov'),
-  gazimagomedov: picsum('gazimagomedov'),
-  mevloev: picsum('mevloev'),
-  tsokaev: picsum('tsokaev'),
-  kudukhov: picsum('kudukhov'),
-  zhumalov: picsum('zhumalov'),
-  kurugliev: picsum('kurugliev'),
-  rashidov: picsum('rashidov')
+  action: 'images/wrestling-action.svg',
+  olympicFinal: 'images/wrestling-final.svg',
+  matTraining: 'images/wrestling-training.svg',
+  youthMat: 'images/wrestling-youth.svg',
+  gym: 'images/wrestling-gym.svg',
+  teamWarmup: 'images/wrestling-team.svg',
+  sadulaev: 'images/sadulaev.png',
+  sidakov: 'images/sidakov.png',
+  uguev: 'images/uguev.png',
+  saytiyev: 'images/saytiev.png',
+  naifonov: 'images/naifonov.png',
+  batirov: 'images/batirov.png',
+  gatsalov: 'images/gatsalov.png',
+  ramonov: 'images/ramonov.png',
+  gazimagomedov: 'images/gazimagomedov.svg',
+  mevloev: 'images/mevloev.png',
+  tsokaev: 'images/tsokaev.png',
+  kudukhov: 'images/kudukhov.png',
+  zhumalov: 'images/zhumalov.svg',
+  kurugliev: 'images/kurugliev.svg',
+  rashidov: 'images/rashidov.svg'
 });
 
 const defaultDetail = Object.freeze({
