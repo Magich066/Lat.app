@@ -289,7 +289,7 @@ function paragraphsToHtml(paragraphs) {
     .join('');
 }
 
-const picsum = seed => `https://picsum.photos/seed/${seed}/800/600`;
+const picsum = seed => `images/${seed}.svg`;
 
 const wrestlingImages = Object.freeze({
   action: picsum('wrestling-action'),

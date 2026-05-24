@@ -164,7 +164,7 @@ nav a:hover {
   overflow: hidden;
   background:
     linear-gradient(rgba(5,8,22,0.42), rgba(5,8,22,0.82)),
-    url('https://images.unsplash.com/photo-1591115765373-52077643f9e2?w=1600') center/cover;
+    url('images/hero-bg.svg') center/cover;
 }
 
 .hero::before {
@@ -1391,7 +1391,7 @@ footer {
 .light-theme .hero {
   background:
     linear-gradient(rgba(240,244,250,0.58), rgba(240,244,250,0.92)),
-    url('https://images.unsplash.com/photo-1591115765373-52077643f9e2?w=1600') center/cover;
+    url('images/hero-bg.svg') center/cover;
 }
 
 .light-theme .hero-highlights span {
