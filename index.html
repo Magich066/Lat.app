@@ -15,11 +15,15 @@
     <div class="modal-content">
       <span class="close-modal" id="closeLogin">&times;</span>
       <div id="profileForm">
-        <h2 data-ru="Вход в аккаунт" data-en="Sign In">Вход в аккаунт</h2>
-        <input id="regName" type="text" placeholder="Имя" data-ru-placeholder="Имя" data-en-placeholder="Name">
+        <h2 id="authTitle" data-ru="Вход в аккаунт" data-en="Sign In">Вход в аккаунт</h2>
+        <div class="auth-toggle">
+          <button id="authLoginTab" class="active" data-ru="Войти" data-en="Log In">Войти</button>
+          <button id="authRegisterTab" data-ru="Регистрация" data-en="Register">Регистрация</button>
+        </div>
+        <input id="regName" type="text" placeholder="Имя" data-ru-placeholder="Имя" data-en-placeholder="Name" style="display:none">
         <input id="regEmail" type="email" placeholder="Email" data-ru-placeholder="Email" data-en-placeholder="Email">
         <input id="regPassword" type="password" placeholder="Пароль" data-ru-placeholder="Пароль" data-en-placeholder="Password">
-        <button class="primary-btn" id="registerBtn" data-ru="Зарегистрироваться" data-en="Sign Up">Зарегистрироваться</button>
+        <button class="primary-btn" id="authBtn" data-ru="Войти" data-en="Log In">Войти</button>
         <p class="form-message" id="registerMessage"></p>
       </div>
       <div id="profileInfo" style="display:none">
@@ -57,15 +61,6 @@
           <span class="toggle-slider"></span>
         </label>
       </div>
-    </div>
-  </div>
-
-  <div class="modal detail-modal" id="detailModal">
-    <div class="modal-content detail-content">
-      <span class="close-modal" id="closeDetail">&times;</span>
-      <div class="detail-meta" id="detailMeta"></div>
-      <h2 id="detailTitle"></h2>
-      <div class="detail-body" id="detailBody"></div>
     </div>
   </div>
 
@@ -324,9 +319,10 @@
       <div class="section-title fade-up">
         <h2 data-ru="Наши борцы" data-en="Our Fighters">Наши борцы</h2>
       </div>
+      <div class="filter-container" id="fighterFilter"></div>
       <div class="fighter-grid">
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="97 кг" data-region="Ингушетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/khaniev.jpg')">Магомед-Тагир<br>Ханиев</div>
           <div class="fighter-info">
             <h3>Магомед-Тагир Ханиев</h3>
@@ -335,7 +331,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="74 кг" data-region="Ингушетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/mevloev.png')">Магомед<br>Евлоев</div>
           <div class="fighter-info">
             <h3>Магомед Евлоев</h3>
@@ -344,7 +340,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="61-65 кг" data-region="Ингушетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/tsokaev.png')">Али<br>Цокаев</div>
           <div class="fighter-info">
             <h3>Али Цокаев</h3>
@@ -353,7 +349,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="97 кг" data-region="Дагестан" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/sadulaev.png')">Абдулрашид<br>Садулаев</div>
           <div class="fighter-info">
             <h3>Абдулрашид Садулаев</h3>
@@ -362,7 +358,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="74 кг" data-region="Чечня" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/saytiev.png')">Бувайсар<br>Сайтиев</div>
           <div class="fighter-info">
             <h3>Бувайсар Сайтиев</h3>
@@ -371,7 +367,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="74 кг" data-region="Осетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/sidakov.png')">Заурбек<br>Сидаков</div>
           <div class="fighter-info">
             <h3>Заурбек Сидаков</h3>
@@ -380,7 +376,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="57 кг" data-region="Дагестан" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/uguev.png')">Заур<br>Угуев</div>
           <div class="fighter-info">
             <h3>Заур Угуев</h3>
@@ -389,7 +385,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="86 кг" data-region="Осетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.12), rgba(5,8,22,0.76)), url('images/naifonov.png')">Артур<br>Найфонов</div>
           <div class="fighter-info">
             <h3>Артур Найфонов</h3>
@@ -398,7 +394,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="55-60 кг" data-region="Дагестан" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/batirov.png')">Мавлет<br>Батиров</div>
           <div class="fighter-info">
             <h3>Мавлет Батиров</h3>
@@ -407,7 +403,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="60 кг" data-region="Осетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/kudukhov.png')">Бесик<br>Кудухов</div>
           <div class="fighter-info">
             <h3>Бесик Кудухов</h3>
@@ -416,7 +412,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="96-120 кг" data-region="Осетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/gatsalov.png')">Хаджимурад<br>Гацалов</div>
           <div class="fighter-info">
             <h3>Хаджимурад Гацалов</h3>
@@ -425,7 +421,7 @@
           </div>
         </article>
 
-        <article class="fighter-card fade-up">
+        <article class="fighter-card fade-up" data-weight="65 кг" data-region="Осетия" data-age="взрослый">
           <div class="fighter-img fighter-img-text" style="background-image: linear-gradient(rgba(5,8,22,0.1), rgba(5,8,22,0.72)), url('images/ramonov.png')">Сослан<br>Рамонов</div>
           <div class="fighter-info">
             <h3>Сослан Рамонов</h3>
@@ -447,54 +443,64 @@
       </div>
       <div class="training-grid">
         <article class="training-box section-card fade-up" data-section-id="adi-ahmad-troitskaya">
-          <div class="training-icon">&#129340;</div>
+          <div class="section-img" style="background-image: linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)), url('images/adi-ahmad.jpg')"></div>
           <h3 data-ru="СК «Ади Ахмад»" data-en="Adi Ahmad sports club">СК «Ади Ахмад»</h3>
-          <p data-ru="Ингушский спортивный клуб и школа борьбы, чьи воспитанники регулярно выступают на первенствах России и республиканских турнирах." data-en="Ingush sports club and wrestling school whose athletes regularly compete at Russian championships and republican tournaments.">Ингушский спортивный клуб и школа борьбы, чьи воспитанники регулярно выступают на первенствах России и республиканских турнирах.</p>
+           <p data-ru="Специализируется на греко-римской борьбе и шахматах. Воспитанники регулярно становятся победителями всероссийских и международных соревнований." data-en="Specializes in Greco-Roman wrestling and chess. Students regularly win Russian and international competitions.">Специализируется на греко-римской борьбе и шахматах. Воспитанники регулярно становятся победителями всероссийских и международных соревнований.</p>
           <div class="section-meta"><span>Троицкая</span><span>дети и юниоры</span></div>
+          <div class="section-address">&#128205; с. Троицкая, Ингушетия</div>
+          <div class="section-contacts">&#128222; +7 (928) 733-12-48, +7 (928) 123-43-25</div>
           <div class="rating" data-rating>
             <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
           </div>
           <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
         </article>
         <article class="training-box section-card fade-up" data-section-id="nesterovskaya-wrestling">
-          <div class="training-icon">&#127947;</div>
+          <div class="section-img" style="background-image: linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)), url('images/nesterovskaya.jpg')"></div>
           <h3 data-ru="Борцовская секция Нестеровской" data-en="Nesterovskaya wrestling section">Борцовская секция Нестеровской</h3>
           <p data-ru="Команды из Нестеровской упоминались среди призёров юношеского первенства Ингушетии по борьбе. Формат подходит для школьников." data-en="Teams from Nesterovskaya were mentioned among medalists of Ingushetia's youth wrestling championship. The format suits school students.">Команды из Нестеровской упоминались среди призёров юношеского первенства Ингушетии по борьбе. Формат подходит для школьников.</p>
           <div class="section-meta"><span>Нестеровская</span><span>школьники</span></div>
+          <div class="section-address">&#128205; ст. Нестеровская, Ингушетия</div>
+          <div class="section-contacts">&#128222; +7 (928) 096-79-23</div>
           <div class="rating" data-rating>
             <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
           </div>
           <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
         </article>
         <article class="training-box section-card fade-up" data-section-id="surkhakhi-wrestling">
-          <div class="training-icon">&#128170;</div>
+          <div class="section-img" style="background-image: linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)), url('images/surkhakhi.jpg')"></div>
           <h3 data-ru="Борцовская секция Сурхахи" data-en="Surkhakhi wrestling section">Борцовская секция Сурхахи</h3>
           <p data-ru="Сурхахи Назрановского района фигурирует в результатах юношеских соревнований Ингушетии; секция ориентирована на базовую подготовку." data-en="Surkhakhi in Nazran district appears in Ingushetia youth wrestling results; the section is focused on basic preparation.">Сурхахи Назрановского района фигурирует в результатах юношеских соревнований Ингушетии; секция ориентирована на базовую подготовку.</p>
           <div class="section-meta"><span>Сурхахи</span><span>начальная подготовка</span></div>
+          <div class="section-address">&#128205; с. Сурхахи, Назрановский р-н, Ингушетия</div>
+          <div class="section-contacts">&#128222; +7 (928) 791-37-37, +7 (928) 919-91-13</div>
           <div class="rating" data-rating>
             <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
           </div>
           <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
         </article>
         <article class="training-box section-card fade-up" data-section-id="nazran-wrestling">
-          <div class="training-icon">&#127942;</div>
+          <div class="section-img" style="background-image: linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)), url('images/magas.jpg')"></div>
           <h3 data-ru="ДС «Магас» Назрань" data-en="Magas Sports Palace Nazran">ДС «Магас» Назрань</h3>
           <p data-ru="Дворец спорта имени Берда Евлоева. Крупная площадка для турниров по греко-римской и вольной борьбе, где проходят первенства России." data-en="Berd Evloev Sports Palace. A major venue for Greco-Roman and freestyle wrestling tournaments, hosting Russian championships.">
             Дворец спорта имени Берда Евлоева. Крупная площадка для турниров по греко-римской и вольной борьбе, где проходят первенства России.
           </p>
           <div class="section-meta"><span>Назрань</span><span>все возраста</span><span>турниры</span></div>
+          <div class="section-address">&#128205; г. Назрань, ул. Муссы Мальсагова, Ингушетия</div>
+          <div class="section-contacts">&#128222; +7 (928) 748-51-05, +7 (8734) 77-08-00</div>
           <div class="rating" data-rating>
             <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
           </div>
           <div class="rating-value" data-ru="Оценка: нет" data-en="Rating: none">Оценка: нет</div>
         </article>
         <article class="training-box section-card fade-up" data-section-id="karabulak-wrestling">
-          <div class="training-icon">&#127947;</div>
+          <div class="section-img" style="background-image: linear-gradient(145deg, rgba(46,163,255,0.34), rgba(168,85,247,0.18)), url('images/karabulak.jpg')"></div>
           <h3 data-ru="Борцовский зал Карабулак" data-en="Karabulak Wrestling Gym">Борцовский зал Карабулак</h3>
           <p data-ru="Секция вольной борьбы в Карабулаке. Тренировки для детей и взрослых, подготовка к республиканским соревнованиям." data-en="Freestyle wrestling section in Karabulak. Training for children and adults, preparation for republican competitions.">
             Секция вольной борьбы в Карабулаке. Тренировки для детей и взрослых, подготовка к республиканским соревнованиям.
           </p>
           <div class="section-meta"><span>Карабулак</span><span>дети и взрослые</span></div>
+          <div class="section-address">&#128205; г. Карабулак, Ингушетия</div>
+          <div class="section-contacts">&#128222; +7 (873) 4444-113, +7 (928) 791-37-37</div>
           <div class="rating" data-rating>
             <button data-score="1">★</button><button data-score="2">★</button><button data-score="3">★</button><button data-score="4">★</button><button data-score="5">★</button>
           </div>
@@ -588,7 +594,7 @@
         <a href="mailto:info@latt.app">info@latt.app</a>
       </div>
     </div>
-    <p class="footer-copy">&copy; 2026 Wrestling Academy</p>
+    <p class="footer-copy">&copy; 2026 Wrestling Academy Ingushetia</p>
   </footer>
 
   <script src="script.js"></script>

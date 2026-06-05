@@ -1,5 +1,6 @@
 const navLinks = document.querySelectorAll('.nav-link');
 const tabContents = document.querySelectorAll('.tab-content');
+const API = 'http://localhost:3001/api';
 
 function openTab(tabId) {
     navLinks.forEach(item => item.classList.remove('active'));
@@ -24,9 +25,7 @@ navLinks.forEach(link => {
 });
 
 document.querySelectorAll('[data-open-tab]').forEach(button => {
-  button.addEventListener('click', () => {
-    openTab(button.dataset.openTab);
-  });
+  button.addEventListener('click', () => { openTab(button.dataset.openTab); });
 });
 
 const loginModal = document.getElementById('loginModal');
@@ -60,6 +59,114 @@ const profileName = document.getElementById('profileName');
 const profileEmail = document.getElementById('profileEmail');
 const profileDate = document.getElementById('profileDate');
 const logoutBtn = document.getElementById('logoutBtn');
+const authBtn = document.getElementById('authBtn');
+const authLoginTab = document.getElementById('authLoginTab');
+const authRegisterTab = document.getElementById('authRegisterTab');
+const authTitle = document.getElementById('authTitle');
+const regName = document.getElementById('regName');
+const regEmail = document.getElementById('regEmail');
+const regPassword = document.getElementById('regPassword');
+let isLoginMode = true;
+
+const languageToggle = document.getElementById('languageToggle');
+
+function applyLanguage() {
+  const isEn = languageToggle.checked;
+  document.querySelectorAll('[data-ru]').forEach(el => {
+    const key = isEn ? 'data-en' : 'data-ru';
+    const val = el.getAttribute(key);
+    if (val !== null && el.tagName !== 'TITLE') {
+      el.textContent = val;
+    }
+  });
+  document.querySelectorAll('[data-ru-placeholder]').forEach(el => {
+    el.placeholder = isEn
+      ? el.getAttribute('data-en-placeholder')
+      : el.getAttribute('data-ru-placeholder');
+  });
+}
+
+languageToggle.addEventListener('change', applyLanguage);
+
+authLoginTab.addEventListener('click', () => {
+  isLoginMode = true;
+  authLoginTab.classList.add('active');
+  authRegisterTab.classList.remove('active');
+  regName.style.display = 'none';
+  authBtn.textContent = languageToggle.checked ? 'Log In' : 'Войти';
+  authTitle.textContent = languageToggle.checked ? 'Sign In' : 'Вход в аккаунт';
+  registerMessage.textContent = '';
+});
+
+authRegisterTab.addEventListener('click', () => {
+  isLoginMode = false;
+  authRegisterTab.classList.add('active');
+  authLoginTab.classList.remove('active');
+  regName.style.display = '';
+  authBtn.textContent = languageToggle.checked ? 'Sign Up' : 'Зарегистрироваться';
+  authTitle.textContent = languageToggle.checked ? 'Registration' : 'Регистрация';
+  registerMessage.textContent = '';
+});
+
+const authBtnHandler = async () => {
+  const email = regEmail.value.trim();
+  const password = regPassword.value;
+
+  if (isLoginMode) {
+    if (!email.includes('@') || !password) {
+      registerMessage.textContent = languageToggle.checked ? 'Enter email and password.' : 'Введите email и пароль.';
+      return;
+    }
+    try {
+      const res = await fetch(`${API}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        registerMessage.textContent = err.error || 'Ошибка входа';
+        return;
+      }
+      const user = await res.json();
+      localStorage.setItem('lattUser', JSON.stringify({ ...user, createdAt: user.created_at }));
+      updateProfileButton();
+      registerMessage.textContent = languageToggle.checked ? 'Logged in!' : 'Вход выполнен!';
+      setTimeout(() => { loginModal.style.display = 'none'; }, 900);
+    } catch {
+      registerMessage.textContent = languageToggle.checked ? 'Connection error.' : 'Ошибка соединения с сервером';
+    }
+  } else {
+    const name = regName.value.trim();
+    if (name.length < 2 || !email.includes('@') || password.length < 6) {
+      registerMessage.textContent = languageToggle.checked
+        ? 'Enter a name, valid email and password from 6 characters.'
+        : 'Введите имя, корректный email и пароль от 6 символов.';
+      return;
+    }
+    try {
+      const res = await fetch(`${API}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        registerMessage.textContent = err.error || 'Ошибка регистрации';
+        return;
+      }
+      const user = await res.json();
+      localStorage.setItem('lattUser', JSON.stringify({ ...user, createdAt: user.created_at }));
+      updateProfileButton();
+      registerMessage.textContent = languageToggle.checked ? 'Registration completed!' : 'Регистрация выполнена!';
+      setTimeout(() => { loginModal.style.display = 'none'; }, 900);
+    } catch {
+      registerMessage.textContent = languageToggle.checked ? 'Connection error.' : 'Ошибка соединения с сервером';
+    }
+  }
+};
+
+authBtn.addEventListener('click', authBtnHandler);
 
 function updateProfileButton() {
   const user = getSavedUser();
@@ -99,26 +206,13 @@ logoutBtn.addEventListener('click', () => {
   profileBtn.setAttribute('data-en', 'Profile');
   showProfileView();
   registerMessage.textContent = '';
-  document.getElementById('regName').value = '';
-  document.getElementById('regEmail').value = '';
-  document.getElementById('regPassword').value = '';
+  regName.value = ''; regEmail.value = ''; regPassword.value = '';
 });
 
-document.getElementById('closeLogin').onclick = () => {
-  loginModal.style.display = 'none';
-};
-
-document.getElementById('openSettings').onclick = () => {
-  settingsModal.style.display = 'flex';
-};
-
-document.getElementById('closeSettings').onclick = () => {
-  settingsModal.style.display = 'none';
-};
-
-document.getElementById('closeDetail').onclick = () => {
-  detailModal.style.display = 'none';
-};
+document.getElementById('closeLogin').onclick = () => { loginModal.style.display = 'none'; };
+document.getElementById('openSettings').onclick = () => { settingsModal.style.display = 'flex'; };
+document.getElementById('closeSettings').onclick = () => { settingsModal.style.display = 'none'; };
+document.getElementById('closeDetail')?.addEventListener('click', () => { if (detailModal) detailModal.style.display = 'none'; });
 
 detailBack.addEventListener('click', () => {
   tabContents.forEach(tab => tab.classList.remove('active-tab'));
@@ -127,37 +221,7 @@ detailBack.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-if (registerBtn) {
-  registerBtn.addEventListener('click', () => {
-    const name = document.getElementById('regName').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value;
-
-    if (name.length < 2 || !email.includes('@') || password.length < 6) {
-      registerMessage.textContent = languageToggle?.checked
-        ? 'Enter a name, valid email and password from 6 characters.'
-        : 'Введите имя, корректный email и пароль от 6 символов.';
-      return;
-    }
-
-    localStorage.setItem('lattUser', JSON.stringify({
-      name,
-      email,
-      createdAt: new Date().toISOString()
-    }));
-
-    registerMessage.textContent = languageToggle?.checked
-      ? 'Registration completed. Profile saved in this browser.'
-      : 'Регистрация выполнена. Профиль сохранён в этом браузере.';
-    updateProfileButton();
-
-    setTimeout(() => {
-      loginModal.style.display = 'none';
-    }, 900);
-  });
-}
-
-[loginModal, settingsModal, detailModal].forEach(modal => {
+[loginModal, settingsModal, detailModal].filter(Boolean).forEach(modal => {
   modal.addEventListener('click', e => {
     if (e.target === modal) modal.style.display = 'none';
   });
@@ -167,29 +231,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     loginModal.style.display = 'none';
     settingsModal.style.display = 'none';
-    detailModal.style.display = 'none';
+    if (detailModal) detailModal.style.display = 'none';
   }
 });
-
-const languageToggle = document.getElementById('languageToggle');
-
-function applyLanguage() {
-  const isEn = languageToggle.checked;
-  document.querySelectorAll('[data-ru]').forEach(el => {
-    const key = isEn ? 'data-en' : 'data-ru';
-    const val = el.getAttribute(key);
-    if (val !== null && el.tagName !== 'TITLE') {
-      el.textContent = val;
-    }
-  });
-  document.querySelectorAll('[data-ru-placeholder]').forEach(el => {
-    el.placeholder = isEn
-      ? el.getAttribute('data-en-placeholder')
-      : el.getAttribute('data-ru-placeholder');
-  });
-}
-
-languageToggle.addEventListener('change', applyLanguage);
 
 const themeToggle = document.getElementById('themeToggle');
 
@@ -236,34 +280,176 @@ if (hamburger) {
   });
 }
 
-function setSectionRating(card, score) {
-  const id = card.dataset.sectionId;
+// --- NEWS SOURCE FIX ---
+document.querySelectorAll('.news-source').forEach(link => {
+  const href = link.getAttribute('href');
+  if (href && href !== '#' && href !== '') {
+    link.addEventListener('click', e => { e.stopPropagation(); });
+  } else {
+    link.removeAttribute('href');
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = link.closest('.card, .tournament-card');
+      if (card) openDetail(card);
+    });
+  }
+});
+
+// --- RATINGS ---
+async function setSectionRating(card, score) {
+  const user = getSavedUser();
+  if (!user?.id) {
+    const msg = languageToggle.checked
+      ? 'You need to register to leave a review'
+      : 'Нужно зарегистрироваться, чтобы оставить отзыв';
+    alert(msg);
+    openTab('home-tab');
+    setTimeout(() => profileBtn.click(), 300);
+    return;
+  }
+
+  const sectionId = card.dataset.sectionId;
   card.querySelectorAll('[data-score]').forEach(button => {
     button.classList.toggle('active', Number(button.dataset.score) <= score);
   });
 
-  const value = card.querySelector('.rating-value');
-  if (value) {
-    value.textContent = languageToggle.checked ? `Rating: ${score}/5` : `Оценка: ${score}/5`;
-    value.setAttribute('data-ru', `Оценка: ${score}/5`);
-    value.setAttribute('data-en', `Rating: ${score}/5`);
-  }
+  try {
+    const res = await fetch(`${API}/ratings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-user-id': user.id },
+      body: JSON.stringify({ section_id: sectionId, score })
+    });
 
-  if (id) localStorage.setItem(`sectionRating:${id}`, String(score));
+    if (!res.ok) {
+      const err = await res.json();
+      if (res.status === 401) {
+        const msg = languageToggle.checked
+          ? 'You need to register to leave a review'
+          : 'Нужно зарегистрироваться, чтобы оставить отзыв';
+        alert(msg);
+        profileBtn.click();
+      } else {
+        alert(err.error || 'Ошибка');
+      }
+      return;
+    }
+
+    const data = await res.json();
+    const value = card.querySelector('.rating-value');
+    if (value) {
+      const label = languageToggle.checked ? `Rating: ${data.average}/5 (${data.count})` : `Оценка: ${data.average}/5 (${data.count})`;
+      value.textContent = label;
+      value.setAttribute('data-ru', `Оценка: ${data.average}/5 (${data.count})`);
+      value.setAttribute('data-en', `Rating: ${data.average}/5 (${data.count})`);
+    }
+  } catch {
+    alert('Ошибка соединения с сервером');
+  }
 }
 
-document.querySelectorAll('.section-card').forEach(card => {
-  const saved = Number(localStorage.getItem(`sectionRating:${card.dataset.sectionId}`));
-  if (saved) setSectionRating(card, saved);
+async function loadSectionRatings() {
+  try {
+    const res = await fetch(`${API}/ratings`);
+    if (!res.ok) return;
+    const all = await res.json();
+    all.forEach(item => {
+      const card = document.querySelector(`[data-section-id="${item.section_id}"]`);
+      if (!card) return;
+      const value = card.querySelector('.rating-value');
+      if (value) {
+        const label = languageToggle.checked ? `Rating: ${item.average}/5 (${item.count})` : `Оценка: ${item.average}/5 (${item.count})`;
+        value.textContent = label;
+        value.setAttribute('data-ru', `Оценка: ${item.average}/5 (${item.count})`);
+        value.setAttribute('data-en', `Rating: ${item.average}/5 (${item.count})`);
+      }
+      const stars = Number(item.average);
+      card.querySelectorAll('[data-score]').forEach(button => {
+        button.classList.toggle('active', Number(button.dataset.score) <= Math.round(stars));
+      });
+    });
+  } catch {}
+}
 
-  card.querySelectorAll('[data-score]').forEach(button => {
-    button.addEventListener('click', e => {
-      e.stopPropagation();
-      setSectionRating(card, Number(button.dataset.score));
+let sectionRatingsInitialized = false;
+
+function initSectionRatings() {
+  if (sectionRatingsInitialized) { loadSectionRatings(); return; }
+  sectionRatingsInitialized = true;
+  document.querySelectorAll('.section-card').forEach(card => {
+    card.querySelectorAll('[data-score]').forEach(button => {
+      button.addEventListener('click', e => {
+        e.stopPropagation();
+        setSectionRating(card, Number(button.dataset.score));
+      });
     });
   });
-});
+  loadSectionRatings();
+}
 
+openTab = (function(orig) {
+  return function(tabId) {
+    orig(tabId);
+    if (tabId === 'fighters-tab') initFighterFilter();
+    if (tabId === 'sections-tab') initSectionRatings();
+  };
+})(openTab);
+
+// --- FIGHTER FILTER ---
+function initFighterFilter() {
+  const filterContainer = document.getElementById('fighterFilter');
+  if (!filterContainer || filterContainer.dataset.initialized) return;
+  filterContainer.dataset.initialized = '1';
+
+  const fighters = document.querySelectorAll('.fighter-card');
+  const weights = [...new Set(Array.from(fighters).map(f => f.dataset.weight).filter(Boolean))].sort();
+  const regions = [...new Set(Array.from(fighters).map(f => f.dataset.region).filter(Boolean))].sort();
+  const ages = [...new Set(Array.from(fighters).map(f => f.dataset.age).filter(Boolean))].sort();
+
+  filterContainer.innerHTML = `
+    <div class="filter-group">
+      <select id="filterWeight">
+        <option value="">${languageToggle.checked ? 'All weights' : 'Все веса'}</option>
+        ${weights.map(w => `<option value="${w}">${w}</option>`).join('')}
+      </select>
+      <select id="filterRegion">
+        <option value="">${languageToggle.checked ? 'All regions' : 'Все регионы'}</option>
+        ${regions.map(r => `<option value="${r}">${r}</option>`).join('')}
+      </select>
+      <select id="filterAge">
+        <option value="">${languageToggle.checked ? 'All ages' : 'Все возрасты'}</option>
+        ${ages.map(a => `<option value="${a}">${a}</option>`).join('')}
+      </select>
+      <button class="secondary-btn" id="resetFilter">${languageToggle.checked ? 'Reset' : 'Сбросить'}</button>
+    </div>
+  `;
+
+  function applyFighterFilter() {
+    const w = document.getElementById('filterWeight')?.value || '';
+    const r = document.getElementById('filterRegion')?.value || '';
+    const a = document.getElementById('filterAge')?.value || '';
+    fighters.forEach(f => {
+      const mw = !w || f.dataset.weight === w;
+      const mr = !r || f.dataset.region === r;
+      const ma = !a || f.dataset.age === a;
+      f.style.display = (mw && mr && ma) ? '' : 'none';
+    });
+  }
+
+  setTimeout(() => {
+    document.getElementById('filterWeight')?.addEventListener('change', applyFighterFilter);
+    document.getElementById('filterRegion')?.addEventListener('change', applyFighterFilter);
+    document.getElementById('filterAge')?.addEventListener('change', applyFighterFilter);
+    document.getElementById('resetFilter')?.addEventListener('click', () => {
+      document.getElementById('filterWeight').value = '';
+      document.getElementById('filterRegion').value = '';
+      document.getElementById('filterAge').value = '';
+      applyFighterFilter();
+    });
+  }, 50);
+}
+
+// --- DETAIL ---
 function textFrom(el, selector) {
   return el.querySelector(selector)?.textContent.trim() || '';
 }
@@ -296,17 +482,17 @@ const wrestlingImages = Object.freeze({
   youthMat: 'images/wrestling-youth.svg',
   gym: 'images/wrestling-gym.svg',
   teamWarmup: 'images/wrestling-team.svg',
-  sadulaev: 'images/sadulaev.svg',
-  sidakov: 'images/sidakov.svg',
-  uguev: 'images/uguev.svg',
-  saytiyev: 'images/saytiev.svg',
-  naifonov: 'images/naifonov.svg',
-  batirov: 'images/batirov.svg',
-  gatsalov: 'images/gatsalov.svg',
-  ramonov: 'images/ramonov.svg',
-  mevloev: 'images/mevloev.svg',
-  tsokaev: 'images/tsokaev.svg',
-  kudukhov: 'images/kudukhov.svg'
+  sadulaev: 'images/sadulaev.png',
+  sidakov: 'images/sidakov.png',
+  uguev: 'images/uguev.png',
+  saytiyev: 'images/saytiev.png',
+  naifonov: 'images/naifonov.png',
+  batirov: 'images/batirov.png',
+  gatsalov: 'images/gatsalov.png',
+  ramonov: 'images/ramonov.png',
+  mevloev: 'images/mevloev.png',
+  tsokaev: 'images/tsokaev.png',
+  kudukhov: 'images/kudukhov.png'
 });
 
 const defaultDetail = Object.freeze({
@@ -353,286 +539,46 @@ const defaultDetail = Object.freeze({
 });
 
 const detailContent = Object.freeze({
-  'Максим Монгуш выиграл первенство Европы U-17': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Эта новость важна для юношеской борьбы: победа в категории до 65 кг показывает, что спортсмен уже умеет выдерживать международный темп и серию напряжённых схваток.',
-      'Для возраста U-17 особенно ценны дисциплина веса, быстрый вход в борьбу с первых секунд и способность не терять концентрацию после успешного действия.',
-      'Такие результаты помогают тренерам видеть, какие качества нужно развивать у молодых вольников: базовую стойку, защиту ног, работу за пределами центра ковра и психологическую устойчивость.'
-    ]
-  },
-  'В Каспийске прошёл Мемориал Алиева': {
-    image: wrestlingImages.olympicFinal,
-    paragraphs: [
-      'Мемориал Али Алиева - один из заметных турниров для борцов вольного стиля на Северном Кавказе. Каспийск традиционно собирает сильных спортсменов и тренеров.',
-      'Для участников такой старт проверяет не только технику, но и готовность бороться против разных школ: дагестанской, осетинской, чеченской, ингушской и зарубежной.',
-      'Зрителю стоит смотреть на плотность схваток, работу в партере и концовки периодов: именно там часто видно, кто лучше готов физически и тактически.'
-    ]
-  },
-  'Магомед-Тагир Ханиев завоевал серебро': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'Серебро на рейтинговом турнире в весе до 97 кг - серьёзный результат, потому что тяжёлые категории требуют мощной физики, контроля позиции и осторожной работы против контратак.',
-      'Путь до финала показывает, что спортсмен выдержал несколько схваток и смог сохранить качество борьбы на фоне усталости.',
-      'Для молодых борцов здесь важный урок: медаль начинается не в финале, а в подготовке, весовом режиме, разминке и умении бороться каждый эпизод до свистка.'
-    ]
-  },
-  'Зелимхан Чаниев отличился на первенстве России': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Первенство России до 21 года - этап, где юниоры уже сталкиваются с почти взрослой конкуренцией. Здесь важны не только скорость, но и зрелая тактика.',
-      'Для представителя региона сильное выступление означает шанс закрепиться в поле зрения тренеров и получить опыт против борцов из разных школ.',
-      'Особенно полезно разбирать такие старты по видео: как спортсмен входит в захват, где выбирает атаку и как защищает преимущество в концовке.'
-    ]
-  },
-  'Определились победители Мемориала Алиева': {
-    image: wrestlingImages.olympicFinal,
-    paragraphs: [
-      'Итоги крупного турнира показывают реальную расстановку сил: кто готов к сезону, какие веса наиболее конкурентны и какие регионы привезли сильные составы.',
-      'Для борцов и тренеров список победителей полезен как ориентир перед следующими сборами и стартами. Он помогает понять, с кем придётся встречаться дальше.',
-      'В подробностях таких турниров важны не только чемпионы, но и призёры: часто именно они через следующий сезон становятся главными претендентами на золото.'
-    ]
-  },
-  'Борцы Ингушетии выступили во Владикавказе': {
-    image: wrestlingImages.teamWarmup,
-    paragraphs: [
-      'Выездной турнир во Владикавказе полезен для команды тем, что спортсмены получают опыт вне привычного зала и встречаются с другими стилями борьбы.',
-      'Для тренеров такие старты показывают, кто готов к более сильным соревнованиям, кто умеет держать вес и кто сохраняет дисциплину на выезде.',
-      'Командный формат важен для молодых борцов: рядом есть партнёры, тренеры и пример старших спортсменов, а значит проще учиться правильно готовиться к схватке.'
-    ]
-  },
-  'Мемориал Али Алиева': {
-    image: wrestlingImages.olympicFinal,
-    paragraphs: [
-      'Турнир посвящён памяти Али Алиева и остаётся сильной площадкой для вольников. Здесь ценятся опыт, характер и умение быстро перестраиваться под соперника.',
-      'Для спортсмена это возможность проверить форму в условиях высокой конкуренции, а для тренера - увидеть, какие действия стабильно проходят под давлением.',
-      'Главные зоны внимания: борьба за первый балл, защита ног, активность у края ковра и способность удержать преимущество во втором периоде.'
-    ]
-  },
-  'Первенство Европы U-17': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Юношеское первенство Европы показывает уровень ближайшего резерва. В этом возрасте спортсмены уже должны уверенно владеть базой и уметь выполнять план на схватку.',
-      'Сильное выступление в U-17 помогает борцу получить международный опыт до перехода во взрослую борьбу, где темп и цена ошибки выше.',
-      'Для тренировки после такого турнира полезно выбрать одну тему: атаки в ноги, защита от проходов, выход из партера или работа за пределами центра.'
-    ]
-  },
-  'Турнир «Мухаммед Мало»': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'Рейтинговый турнир важен тем, что каждый результат влияет на позицию спортсмена и его дальнейший соревновательный календарь.',
-      'Вес до 97 кг требует сочетания силы и подвижности. Побеждает не просто самый мощный, а тот, кто лучше контролирует дистанцию и не отдаёт лёгкие баллы.',
-      'Для подготовки к таким стартам тренеры обычно усиливают работу над выносливостью, защитой ног, контратаками и умением бороться при минимальном счёте.'
-    ]
-  },
-  'Первенство России до 21 года': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Категория до 21 года - переход между юношеской и взрослой борьбой. Здесь уже недостаточно одной скорости: нужна тактика, терпение и стабильность.',
-      'Такие соревнования помогают понять, кто готов к более высоким стартам и кто способен выдерживать давление сильной сетки.',
-      'После первенства важно не просто запомнить место, а разобрать схватки: где потеряны баллы, где не хватило движения и какие атаки нужно закреплять.'
-    ]
-  },
-  'Первенство России в Назрани': {
-    image: wrestlingImages.gym,
-    paragraphs: [
-      'Соревнования в Назрани важны для развития борцовской среды региона: домашняя площадка даёт молодым спортсменам пример большого турнира рядом с ними.',
-      'Даже если событие связано с греко-римской борьбой, организация турнира, дисциплина команд и соревновательный опыт полезны для всей борцовской школы.',
-      'Для секций региона такие старты становятся мотивацией: дети видят сильных спортсменов, тренеры получают ориентиры, а клубы укрепляют соревновательную культуру.'
-    ]
-  },
-  'Кавказские турниры по вольной борьбе': {
-    image: wrestlingImages.teamWarmup,
-    paragraphs: [
-      'Кавказские турниры ценятся плотной конкуренцией. На одной площадке могут встретиться спортсмены из Дагестана, Осетии, Чечни, Ингушетии и соседних регионов.',
-      'Для вольника это хорошая проверка характера: разные школы дают разный темп, разные захваты и разные способы давления.',
-      'Регулярные старты в регионе помогают быстрее расти, потому что спортсмен привыкает к сильным соперникам и учится бороться без страха перед именами.'
-    ]
-  },
-  'Абдулрашид Садулаев': {
-    image: wrestlingImages.sadulaev,
-    paragraphs: [
-      'Садулаев известен мощной борьбой в верхних весах, давлением в стойке и умением быстро переводить преимущество в баллы.',
-      'Его стиль полезно изучать по эпизодам: вход в контакт, контроль корпуса соперника, работа после первого действия и спокойствие в решающие секунды.',
-      'Для молодых борцов главный урок - сила должна идти вместе с техникой. Даже физически сильный спортсмен обязан держать стойку, дистанцию и дисциплину.'
-    ]
-  },
-  'Заурбек Сидаков': {
-    image: wrestlingImages.sidakov,
-    paragraphs: [
-      'Сидаков выделяется тактической борьбой, грамотной работой в концовках и умением не раскрывать лишние возможности для контратаки.',
-      'В весе до 74 кг особенно важны скорость рук, чувство дистанции и способность мгновенно переходить от защиты к атаке.',
-      'Его схватки хорошо смотреть тем, кто хочет понять, как выигрывать не только за счёт мощи, но и за счёт терпения, выбора момента и контроля счёта.'
-    ]
-  },
-  'Заур Угуев': {
-    image: wrestlingImages.uguev,
-    paragraphs: [
-      'Угуев - пример лёгкого веса, где решают взрывная скорость, проходы в ноги и стабильная защита от ответных атак.',
-      'Его борьба показывает, как важно не останавливаться после первого касания ноги: атаку нужно завершать контролем и положением, которое даёт баллы.',
-      'Для юных вольников это хороший ориентир по работе ног, реакции и умению сохранять темп на протяжении всей схватки.'
-    ]
-  },
-  'Бувайсар Сайтиев': {
-    image: wrestlingImages.saytiyev,
-    paragraphs: [
-      'Бувайсар Сайтиев считается одним из величайших борцов вольного стиля благодаря технике, пластичности и способности читать соперника.',
-      'Его стиль ценен тем, что он часто побеждал не грубой силой, а таймингом, углами атаки и умением заставлять соперника ошибаться.',
-      'Для тренировки можно взять один принцип: не идти прямо в силу соперника, а менять направление, работать руками и создавать удобный момент для прохода.'
-    ]
-  },
-  'Артур Найфонов': {
-    image: wrestlingImages.naifonov,
-    paragraphs: [
-      'Найфонов выступает в среднем весе, где нужно сочетать силовую борьбу, гибкость и готовность держать высокий темп.',
-      'Его сильная сторона - плотный контакт и давление, которое заставляет соперника защищаться и ошибаться у края ковра.',
-      'Для молодых спортсменов полезно смотреть, как он сохраняет позицию после атаки и не отдаёт сопернику лёгкий выход из опасного положения.'
-    ]
-  },
-  'Мавлет Батиров': {
-    image: wrestlingImages.batirov,
-    paragraphs: [
-      'Батиров известен выступлениями в лёгких весах, где цена каждой секунды особенно высока. Там нельзя долго готовить атаку без движения.',
-      'Его сильная сторона - взрывное начало действия и умение быстро переводить скорость в результативный проход.',
-      'Для тренировки это пример того, что скорость должна быть точной: атаковать нужно из правильной стойки, с контролем рук и готовностью продолжить борьбу.'
-    ]
-  },
-  'Бесик Кудухов': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'Кудухов запомнился высоким темпом, атакующей манерой и постоянным давлением на соперника.',
-      'Его борьба показывает, насколько важны движение, смена уровней и готовность атаковать сериями, а не одним отдельным проходом.',
-      'Для юных борцов это пример того, что активность должна быть осмысленной: каждое движение должно создавать угрозу или улучшать позицию.'
-    ]
-  },
-  'Хаджимурад Гацалов': {
-    image: wrestlingImages.gatsalov,
-    paragraphs: [
-      'Гацалов известен выступлениями в тяжёлых категориях, где решают контроль корпуса, мощная стойка и умение навязать свой темп.',
-      'В тяжёлых весах ошибка часто приводит к большим потерям, поэтому особенно важны дисциплина рук и аккуратность при входе в атаку.',
-      'Его стиль полезен для изучения тем, кто хочет понять, как сочетать силу, выносливость и позиционную борьбу.'
-    ]
-  },
-  'Сослан Рамонов': {
-    image: wrestlingImages.ramonov,
-    paragraphs: [
-      'Рамонов известен скоростной борьбой, гибкой техникой и умением быстро менять направление атаки.',
-      'В весе до 65 кг важно не только быстро пройти в ноги, но и удержать соперника, не дать ему развернуться и забрать ответный балл.',
-      'Его схватки полезно смотреть для понимания движения: как борец создаёт угол, как работает руками и как продолжает атаку после первой защиты соперника.'
-    ]
-  },
-  'Магомед Евлоев': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'Магомед Евлоев — перспективный ингушский борец вольного стиля. Выступает в весовой категории до 74 кг, где ценится сочетание скорости и силовой выносливости.',
-      'Регулярные выступления на всероссийских турнирах помогают ему набирать опыт и подниматься в рейтингах. Агрессивный стиль и плотная борьба — его визитная карточка.',
-      'Для молодых спортсменов Ингушетии он пример того, как системная работа и дисциплина выводят на уровень чемпионата России.'
-    ]
-  },
-  'Али Цокаев': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Али Цокаев — молодой ингушский борец вольного стиля, показывающий стабильные результаты на региональных и всероссийских соревнованиях.',
-      'Выступает в лёгких весах (61-65 кг), где решают скорость, взрывная работа ног и умение быстро переключаться между атакой и защитой.',
-      'Его карточка полезна для начинающих борцов: она показывает, что даже без олимпийских титулов можно быть сильным спортсменом и представлять свой регион на высоком уровне.'
-    ]
-  },
-  'Магомед-Тагир Ханиев': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'Ханиев представляет Ингушетию в весе до 97 кг, где особенно важны сила, устойчивость и умение работать против крупных соперников.',
-      'Серебро на рейтинговом турнире показывает, что спортсмен способен выдерживать турнирную нагрузку и доходить до решающих схваток.',
-      'Для молодых вольников его карточка полезна как пример: региональный спортсмен может расти через регулярные старты, дисциплину веса и работу над базовой техникой.'
-    ]
-  },
-  'СК «Ади Ахмад»': {
-    image: wrestlingImages.gym,
-    paragraphs: [
-      'Секция такого типа должна давать спортсмену базу: стойку, страховку, дисциплину на ковре, работу в парах и понимание правил соревнований.',
-      'Для детей и юниоров особенно важен постепенный рост нагрузки. Новичка нельзя сразу бросать в жёсткие схватки без техники и контроля безопасности.',
-      'Родителям стоит смотреть на атмосферу в зале: как тренер объясняет ошибки, как старшие помогают младшим и есть ли участие в местных турнирах.'
-    ]
-  },
-  'Борцовская секция Нестеровской': {
-    image: wrestlingImages.teamWarmup,
-    paragraphs: [
-      'Секция для школьников должна строиться вокруг регулярности: разминка, базовые упражнения, техника в стойке и простые задания на каждую тренировку.',
-      'На первых этапах важнее качество движений, чем победы. Хороший тренер следит, чтобы ребёнок правильно падал, держал стойку и не боялся контакта.',
-      'Соревнования для такой группы нужны как опыт, а не как давление. После старта важно спокойно разобрать ошибки и сохранить желание тренироваться.'
-    ]
-  },
-  'Борцовская секция Сурхахи': {
-    image: wrestlingImages.matTraining,
-    paragraphs: [
-      'Начальная подготовка в секции должна формировать привычку к дисциплине: приходить вовремя, слушать тренера, уважать партнёра и работать без лишней грубости.',
-      'Для вольной борьбы база включает стойку, перемещения, защиту ног, простые проходы и умение бороться у края ковра.',
-      'Если ребёнок только начинает, первые месяцы лучше оценивать не по медалям, а по посещаемости, вниманию на тренировке и уверенности в движениях.'
-    ]
-  },
-  'Родителям: поддержка без давления': {
-    image: wrestlingImages.teamWarmup,
-    paragraphs: [
-      'Поддержка без давления помогает ребёнку не бояться ошибок. В борьбе поражение часто даёт больше материала для роста, чем лёгкая победа.',
-      'После схватки лучше сначала дать спортсмену выдохнуть, а затем спросить: что получилось, где было трудно и что он хочет исправить на тренировке.',
-      'Родительская задача - сохранить интерес и дисциплину, а не заменить тренера подсказками и оценками с трибуны.'
-    ]
-  },
-  'Родителям: режим и восстановление': {
-    image: wrestlingImages.gym,
-    paragraphs: [
-      'Режим напрямую влияет на борьбу: без сна и нормального питания спортсмен хуже держит темп, медленнее реагирует и чаще получает травмы.',
-      'Юному борцу нужна стабильность: вода, обычная еда, достаточный отдых и отсутствие резких диет перед соревнованиями.',
-      'Если появилась боль, её нельзя игнорировать. Лучше пропустить часть нагрузки и разобраться с причиной, чем усугубить травму.'
-    ]
-  },
-  'Родителям: контакт с тренером': {
-    image: wrestlingImages.matTraining,
-    paragraphs: [
-      'Хороший контакт с тренером помогает родителям понимать, какие задачи сейчас стоят перед спортсменом: техника, дисциплина, вес или подготовка к старту.',
-      'Во время схватки подсказки должны идти от тренера. Лишние голоса сбивают ребёнка и мешают ему выполнять план.',
-      'После соревнований стоит обсуждать не только место, но и поведение: готовность слушать, бороться до конца и уважать соперников.'
-    ]
-  },
-  'Вольникам: база техники': {
-    image: wrestlingImages.action,
-    paragraphs: [
-      'База вольника начинается со стойки. Если стойка разваливается, проходы становятся предсказуемыми, а защита ног запаздывает.',
-      'Каждый проход должен иметь продолжение: захват, движение корпусом, перевод соперника и контроль после падения.',
-      'Тренируйте не только любимую атаку, но и выходы из неудачной попытки. На соревнованиях соперник редко даст идеальную ситуацию.'
-    ]
-  },
-  'Вольникам: физика и дисциплина': {
-    image: wrestlingImages.gym,
-    paragraphs: [
-      'Физика в борьбе - это не только сила. Нужны шея, корпус, хват, взрывная работа ног и выносливость, чтобы не проседать во втором периоде.',
-      'Дневник веса и самочувствия помогает увидеть, когда нагрузка слишком высокая, а когда спортсмен готов прибавлять.',
-      'Дисциплина важнее редких тяжёлых тренировок. Регулярная работа над базой даёт больше, чем попытка резко наверстать всё перед турниром.'
-    ]
-  },
-  'Вольникам: соревнования': {
-    image: wrestlingImages.youthMat,
-    paragraphs: [
-      'Соревнования начинаются до выхода на ковёр: вес, форма, документы, питание, разминка и понимание времени первой схватки.',
-      'Разминка должна включать движение, дыхание, реакцию, несколько привычных атак и короткие эпизоды с партнёром.',
-      'После турнира запишите две ошибки и два сильных действия. Так тренировка после старта будет точной, а не просто тяжёлой.'
-    ]
-  },
-  'ДС «Магас» Назрань': {
-    image: wrestlingImages.gym,
-    paragraphs: [
-      'Дворец спорта «Магас» имени Берда Евлоева в Назрани — одна из главных спортивных арен Ингушетии. Здесь регулярно проходят первенства России по греко-римской борьбе.',
-      'Зал оборудован современными коврами, раздевалками и трибунами для зрителей. Инфраструктура позволяет проводить соревнования всероссийского уровня.',
-      'Для местных спортсменов это возможность тренироваться и выступать на домашней арене, не выезжая за пределы республики.'
-    ]
-  },
-  'Борцовский зал Карабулак': {
-    image: wrestlingImages.matTraining,
-    paragraphs: [
-      'Секция в Карабулаке ориентирована на подготовку борцов вольного стиля. Тренировки проводятся для детей и взрослых в вечернее время.',
-      'Основное внимание уделяется базовой технике: стойке, перемещениям, защите ног и простым проходам. Тренеры работают с начинающими.',
-      'Участие в республиканских соревнованиях помогает спортсменам получать опыт и проверять свой уровень на фоне других секций Ингушетии.'
-    ]
-  }
+  'Максим Монгуш выиграл первенство Европы U-17': { image: wrestlingImages.youthMat, paragraphs: ['Эта новость важна для юношеской борьбы: победа в категории до 65 кг показывает, что спортсмен уже умеет выдерживать международный темп и серию напряжённых схваток.', 'Для возраста U-17 особенно ценны дисциплина веса, быстрый вход в борьбу с первых секунд и способность не терять концентрацию после успешного действия.', 'Такие результаты помогают тренерам видеть, какие качества нужно развивать у молодых вольников: базовую стойку, защиту ног, работу за пределами центра ковра и психологическую устойчивость.'] },
+  'В Каспийске прошёл Мемориал Алиева': { image: wrestlingImages.olympicFinal, paragraphs: ['Мемориал Али Алиева — один из заметных турниров для борцов вольного стиля на Северном Кавказе. Каспийск традиционно собирает сильных спортсменов и тренеров.', 'Для участников такой старт проверяет не только технику, но и готовность бороться против разных школ: дагестанской, осетинской, чеченской, ингушской и зарубежной.', 'Зрителю стоит смотреть на плотность схваток, работу в партере и концовки периодов: именно там часто видно, кто лучше готов физически и тактически.'] },
+  'Магомед-Тагир Ханиев завоевал серебро': { image: wrestlingImages.action, paragraphs: ['Серебро на рейтинговом турнире в весе до 97 кг — серьёзный результат, потому что тяжёлые категории требуют мощной физики, контроля позиции и осторожной работы против контратак.', 'Путь до финала показывает, что спортсмен выдержал несколько схваток и смог сохранить качество борьбы на фоне усталости.', 'Для молодых борцов здесь важный урок: медаль начинается не в финале, а в подготовке, весовом режиме, разминке и умении бороться каждый эпизод до свистка.'] },
+  'Зелимхан Чаниев отличился на первенстве России': { image: wrestlingImages.youthMat, paragraphs: ['Первенство России до 21 года — этап, где юниоры уже сталкиваются с почти взрослой конкуренцией. Здесь важны не только скорость, но и зрелая тактика.', 'Для представителя региона сильное выступление означает шанс закрепиться в поле зрения тренеров и получить опыт против борцов из разных школ.', 'Особенно полезно разбирать такие старты по видео: как спортсмен входит в захват, где выбирает атаку и как защищает преимущество в концовке.'] },
+  'Определились победители Мемориала Алиева': { image: wrestlingImages.olympicFinal, paragraphs: ['Итоги крупного турнира показывают реальную расстановку сил: кто готов к сезону, какие веса наиболее конкурентны и какие регионы привезли сильные составы.', 'Для борцов и тренеров список победителей полезен как ориентир перед следующими сборами и стартами. Он помогает понять, с кем придётся встречаться дальше.', 'В подробностях таких турниров важны не только чемпионы, но и призёры: часто именно они через следующий сезон становятся главными претендентами на золото.'] },
+  'Борцы Ингушетии выступили во Владикавказе': { image: wrestlingImages.teamWarmup, paragraphs: ['Выездной турнир во Владикавказе полезен для команды тем, что спортсмены получают опыт вне привычного зала и встречаются с другими стилями борьбы.', 'Для тренеров такие старты показывают, кто готов к более сильным соревнованиям, кто умеет держать вес и кто сохраняет дисциплину на выезде.', 'Командный формат важен для молодых борцов: рядом есть партнёры, тренеры и пример старших спортсменов, а значит проще учиться правильно готовиться к схватке.'] },
+  'Мемориал Али Алиева': { image: wrestlingImages.olympicFinal, paragraphs: ['Турнир посвящён памяти Али Алиева и остаётся сильной площадкой для вольников. Здесь ценятся опыт, характер и умение быстро перестраиваться под соперника.', 'Для спортсмена это возможность проверить форму в условиях высокой конкуренции, а для тренера — увидеть, какие действия стабильно проходят под давлением.', 'Главные зоны внимания: борьба за первый балл, защита ног, активность у края ковра и способность удержать преимущество во втором периоде.'] },
+  'Первенство Европы U-17': { image: wrestlingImages.youthMat, paragraphs: ['Юношеское первенство Европы показывает уровень ближайшего резерва. В этом возрасте спортсмены уже должны уверенно владеть базой и уметь выполнять план на схватку.', 'Сильное выступление в U-17 помогает борцу получить международный опыт до перехода во взрослую борьбу, где темп и цена ошибки выше.', 'Для тренировки после такого турнира полезно выбрать одну тему: атаки в ноги, защита от проходов, выход из партера или работа за пределами центра.'] },
+  'Турнир «Мухаммед Мало»': { image: wrestlingImages.action, paragraphs: ['Рейтинговый турнир важен тем, что каждый результат влияет на позицию спортсмена и его дальнейший соревновательный календарь.', 'Вес до 97 кг требует сочетания силы и подвижности. Побеждает не просто самый мощный, а тот, кто лучше контролирует дистанцию и не отдаёт лёгкие баллы.', 'Для подготовки к таким стартам тренеры обычно усиливают работу над выносливостью, защитой ног, контратаками и умением бороться при минимальном счёте.'] },
+  'Первенство России до 21 года': { image: wrestlingImages.youthMat, paragraphs: ['Категория до 21 года — переход между юношеской и взрослой борьбой. Здесь уже недостаточно одной скорости: нужна тактика, терпение и стабильность.', 'Такие соревнования помогают понять, кто готов к более высоким стартам и кто способен выдерживать давление сильной сетки.', 'После первенства важно не просто запомнить место, а разобрать схватки: где потеряны баллы, где не хватило движения и какие атаки нужно закреплять.'] },
+  'Первенство России в Назрани': { image: wrestlingImages.gym, paragraphs: ['Соревнования в Назрани важны для развития борцовской среды региона: домашняя площадка даёт молодым спортсменам пример большого турнира рядом с ними.', 'Даже если событие связано с греко-римской борьбой, организация турнира, дисциплина команд и соревновательный опыт полезны для всей борцовской школы.', 'Для секций региона такие старты становятся мотивацией: дети видят сильных спортсменов, тренеры получают ориентиры, а клубы укрепляют соревновательную культуру.'] },
+  'Кавказские турниры по вольной борьбе': { image: wrestlingImages.teamWarmup, paragraphs: ['Кавказские турниры ценятся плотной конкуренцией. На одной площадке могут встретиться спортсмены из Дагестана, Осетии, Чечни, Ингушетии и соседних регионов.', 'Для вольника это хорошая проверка характера: разные школы дают разный темп, разные захваты и разные способы давления.', 'Регулярные старты в регионе помогают быстрее расти, потому что спортсмен привыкает к сильным соперникам и учится бороться без страха перед именами.'] },
+  'Абдулрашид Садулаев': { image: wrestlingImages.sadulaev, paragraphs: ['Садулаев известен мощной борьбой в верхних весах, давлением в стойке и умением быстро переводить преимущество в баллы.', 'Его стиль полезно изучать по эпизодам: вход в контакт, контроль корпуса соперника, работа после первого действия и спокойствие в решающие секунды.', 'Для молодых борцов главный урок — сила должна идти вместе с техникой. Даже физически сильный спортсмен обязан держать стойку, дистанцию и дисциплину.'] },
+  'Заурбек Сидаков': { image: wrestlingImages.sidakov, paragraphs: ['Сидаков выделяется тактической борьбой, грамотной работой в концовках и умением не раскрывать лишние возможности для контратаки.', 'В весе до 74 кг особенно важны скорость рук, чувство дистанции и способность мгновенно переходить от защиты к атаке.', 'Его схватки хорошо смотреть тем, кто хочет понять, как выигрывать не только за счёт мощи, но и за счёт терпения, выбора момента и контроля счёта.'] },
+  'Заур Угуев': { image: wrestlingImages.uguev, paragraphs: ['Угуев — пример лёгкого веса, где решают взрывная скорость, проходы в ноги и стабильная защита от ответных атак.', 'Его борьба показывает, как важно не останавливаться после первого касания ноги: атаку нужно завершать контролем и положением, которое даёт баллы.', 'Для юных вольников это хороший ориентир по работе ног, реакции и умению сохранять темп на протяжении всей схватки.'] },
+  'Бувайсар Сайтиев': { image: wrestlingImages.saytiyev, paragraphs: ['Бувайсар Сайтиев считается одним из величайших борцов вольного стиля благодаря технике, пластичности и способности читать соперника.', 'Его стиль ценен тем, что он часто побеждал не грубой силой, а таймингом, углами атаки и умением заставлять соперника ошибаться.', 'Для тренировки можно взять один принцип: не идти прямо в силу соперника, а менять направление, работать руками и создавать удобный момент для прохода.'] },
+  'Артур Найфонов': { image: wrestlingImages.naifonov, paragraphs: ['Найфонов выступает в среднем весе, где нужно сочетать силовую борьбу, гибкость и готовность держать высокий темп.', 'Его сильная сторона — плотный контакт и давление, которое заставляет соперника защищаться и ошибаться у края ковра.', 'Для молодых спортсменов полезно смотреть, как он сохраняет позицию после атаки и не отдаёт сопернику лёгкий выход из опасного положения.'] },
+  'Мавлет Батиров': { image: wrestlingImages.batirov, paragraphs: ['Батиров известен выступлениями в лёгких весах, где цена каждой секунды особенно высока. Там нельзя долго готовить атаку без движения.', 'Его сильная сторона — взрывное начало действия и умение быстро переводить скорость в результативный проход.', 'Для тренировки это пример того, что скорость должна быть точной: атаковать нужно из правильной стойки, с контролем рук и готовностью продолжить борьбу.'] },
+  'Бесик Кудухов': { image: wrestlingImages.action, paragraphs: ['Кудухов запомнился высоким темпом, атакующей манерой и постоянным давлением на соперника.', 'Его борьба показывает, насколько важны движение, смена уровней и готовность атаковать сериями, а не одним отдельным проходом.', 'Для юных борцов это пример того, что активность должна быть осмысленной: каждое движение должно создавать угрозу или улучшать позицию.'] },
+  'Хаджимурад Гацалов': { image: wrestlingImages.gatsalov, paragraphs: ['Гацалов известен выступлениями в тяжёлых категориях, где решают контроль корпуса, мощная стойка и умение навязать свой темп.', 'В тяжёлых весах ошибка часто приводит к большим потерям, поэтому особенно важны дисциплина рук и аккуратность при входе в атаку.', 'Его стиль полезен для изучения тем, кто хочет понять, как сочетать силу, выносливость и позиционную борьбу.'] },
+  'Сослан Рамонов': { image: wrestlingImages.ramonov, paragraphs: ['Рамонов известен скоростной борьбой, гибкой техникой и умением быстро менять направление атаки.', 'В весе до 65 кг важно не только быстро пройти в ноги, но и удержать соперника, не дать ему развернуться и забрать ответный балл.', 'Его схватки полезно смотреть для понимания движения: как борец создаёт угол, как работает руками и как продолжает атаку после первой защиты соперника.'] },
+  'Магомед Евлоев': { image: wrestlingImages.action, paragraphs: ['Магомед Евлоев — перспективный ингушский борец вольного стиля. Выступает в весовой категории до 74 кг, где ценится сочетание скорости и силовой выносливости.', 'Регулярные выступления на всероссийских турнирах помогают ему набирать опыт и подниматься в рейтингах. Агрессивный стиль и плотная борьба — его визитная карточка.', 'Для молодых спортсменов Ингушетии он пример того, как системная работа и дисциплина выводят на уровень чемпионата России.'] },
+  'Али Цокаев': { image: wrestlingImages.youthMat, paragraphs: ['Али Цокаев — молодой ингушский борец вольного стиля, показывающий стабильные результаты на региональных и всероссийских соревнованиях.', 'Выступает в лёгких весах (61-65 кг), где решают скорость, взрывная работа ног и умение быстро переключаться между атакой и защитой.', 'Его карточка полезна для начинающих борцов: она показывает, что даже без олимпийских титулов можно быть сильным спортсменом и представлять свой регион на высоком уровне.'] },
+  'Магомед-Тагир Ханиев': { image: wrestlingImages.action, paragraphs: ['Ханиев представляет Ингушетию в весе до 97 кг, где особенно важны сила, устойчивость и умение работать против крупных соперников.', 'Серебро на рейтинговом турнире показывает, что спортсмен способен выдерживать турнирную нагрузку и доходить до решающих схваток.', 'Для молодых вольников его карточка полезна как пример: региональный спортсмен может расти через регулярные старты, дисциплину веса и работу над базовой техникой.'] },
+  'СК «Ади Ахмад»': { image: wrestlingImages.gym, paragraphs: [
+      'Спортивный клуб «Ади Ахмад» (ГБУДО «СШ имени Ади Ахмада») — известная спортивная школа в Ингушетии, специализирующаяся на греко-римской борьбе и шахматах. Воспитанники клуба регулярно становятся победителями и призёрами всероссийских и международных соревнований.',
+      'Расположение: Республика Ингушетия, Сунженский район, станица Троицкая, ул. Колхозная (также ул. Багаева), д. 36А. Директор школы — Харсиев Исса Аликович. Большой вклад в развитие клуба и подготовку борцов вносит президент Федерации спортивной борьбы Ингушетии Руслан Белхороев.',
+      'Греко-римская борьба — основное направление клуба. Клуб является кузницей кадров для сборной республики и России. Среди известных воспитанников, показывающих высокие результаты на первенствах России и Европы — Исмаил Барахоев, Рамазан Арапханов, Зелимхан Цуров, Мухаммад Евлоев и другие.',
+      'В Троицкой также действует сильная шахматная секция «Ади-Ахмад». Здесь проводятся крупные гроссмейстерские турниры и матчи с участием мировых звёзд (Бориса Гельфанда, Эрнесто Инаркиева). При клубе функционирует современный тренажёрный зал для общих тренировок.'
+    ] },
+  'Борцовская секция Нестеровской': { image: wrestlingImages.teamWarmup, paragraphs: ['Секция для школьников должна строиться вокруг регулярности: разминка, базовые упражнения, техника в стойке и простые задания на каждую тренировку.', 'На первых этапах важнее качество движений, чем победы. Хороший тренер следит, чтобы ребёнок правильно падал, держал стойку и не боялся контакта.', 'Соревнования для такой группы нужны как опыт, а не как давление. После старта важно спокойно разобрать ошибки и сохранить желание тренироваться.'] },
+  'Борцовская секция Сурхахи': { image: wrestlingImages.matTraining, paragraphs: ['Начальная подготовка в секции должна формировать привычку к дисциплине: приходить вовремя, слушать тренера, уважать партнёра и работать без лишней грубости.', 'Для вольной борьбы база включает стойку, перемещения, защиту ног, простые проходы и умение бороться у края ковра.', 'Если ребёнок только начинает, первые месяцы лучше оценивать не по медалям, а по посещаемости, вниманию на тренировке и уверенности в движениях.'] },
+  'ДС «Магас» Назрань': { image: wrestlingImages.gym, paragraphs: ['Дворец спорта «Магас» имени Берда Евлоева в Назрани — одна из главных спортивных арен Ингушетии. Здесь регулярно проходят первенства России по греко-римской борьбе.', 'Зал оборудован современными коврами, раздевалками и трибунами для зрителей. Инфраструктура позволяет проводить соревнования всероссийского уровня.', 'Для местных спортсменов это возможность тренироваться и выступать на домашней арене, не выезжая за пределы республики.'] },
+  'Борцовский зал Карабулак': { image: wrestlingImages.matTraining, paragraphs: ['Секция в Карабулаке ориентирована на подготовку борцов вольного стиля. Тренировки проводятся для детей и взрослых в вечернее время.', 'Основное внимание уделяется базовой технике: стойке, перемещениям, защите ног и простым проходам. Тренеры работают с начинающими.', 'Участие в республиканских соревнованиях помогает спортсменам получать опыт и проверять свой уровень на фоне других секций Ингушетии.'] },
+  'Родителям: поддержка без давления': { image: wrestlingImages.teamWarmup, paragraphs: ['Поддержка без давления помогает ребёнку не бояться ошибок. В борьбе поражение часто даёт больше материала для роста, чем лёгкая победа.', 'После схватки лучше сначала дать спортсмену выдохнуть, а затем спросить: что получилось, где было трудно и что он хочет исправить на тренировке.', 'Родительская задача — сохранить интерес и дисциплину, а не заменить тренера подсказками и оценками с трибуны.'] },
+  'Родителям: режим и восстановление': { image: wrestlingImages.gym, paragraphs: ['Режим напрямую влияет на борьбу: без сна и нормального питания спортсмен хуже держит темп, медленнее реагирует и чаще получает травмы.', 'Юному борцу нужна стабильность: вода, обычная еда, достаточный отдых и отсутствие резких диет перед соревнованиями.', 'Если появилась боль, её нельзя игнорировать. Лучше пропустить часть нагрузки и разобраться с причиной, чем усугубить травму.'] },
+  'Родителям: контакт с тренером': { image: wrestlingImages.matTraining, paragraphs: ['Хороший контакт с тренером помогает родителям понимать, какие задачи сейчас стоят перед спортсменом: техника, дисциплина, вес или подготовка к старту.', 'Во время схватки подсказки должны идти от тренера. Лишние голоса сбивают ребёнка и мешают ему выполнять план.', 'После соревнований стоит обсуждать не только место, но и поведение: готовность слушать, бороться до конца и уважать соперников.'] },
+  'Вольникам: база техники': { image: wrestlingImages.action, paragraphs: ['База вольника начинается со стойки. Если стойка разваливается, проходы становятся предсказуемыми, а защита ног запаздывает.', 'Каждый проход должен иметь продолжение: захват, движение корпусом, перевод соперника и контроль после падения.', 'Тренируйте не только любимую атаку, но и выходы из неудачной попытки. На соревнованиях соперник редко даст идеальную ситуацию.'] },
+  'Вольникам: физика и дисциплина': { image: wrestlingImages.gym, paragraphs: ['Физика в борьбе — это не только сила. Нужны шея, корпус, хват, взрывная работа ног и выносливость, чтобы не проседать во втором периоде.', 'Дневник веса и самочувствия помогает увидеть, когда нагрузка слишком высокоая, а когда спортсмен готов прибавлять.', 'Дисциплина важнее редких тяжёлых тренировок. Регулярная работа над базой даёт больше, чем попытка резко наверстать всё перед турниром.'] },
+  'Вольникам: соревнования': { image: wrestlingImages.youthMat, paragraphs: ['Соревнования начинаются до выхода на ковёр: вес, форма, документы, питание, разминка и понимание времени первой схватки.', 'Разминка должна включать движение, дыхание, реакцию, несколько привычных атак и короткие эпизоды с партнёром.', 'После турнира запишите две ошибки и два сильных действия. Так тренировка после старта будет точкой, а не просто тяжёлой.'] }
 });
 
 function metaFrom(card) {
@@ -657,6 +603,12 @@ function bodyFrom(card) {
   const paragraphs = Array.from(card.querySelectorAll('p'))
     .map(item => item.textContent.trim())
     .filter(Boolean);
+
+  const addr = card.querySelector('.section-address')?.textContent.trim();
+  if (addr) paragraphs.push(addr);
+
+  const contact = card.querySelector('.section-contacts')?.textContent.trim();
+  if (contact) paragraphs.push(contact);
 
   const rating = card.querySelector('.rating-value')?.textContent.trim();
   if (rating) paragraphs.push(rating);
@@ -758,6 +710,7 @@ document.querySelectorAll('.news-card, .tournament-card, .fighter-card, .section
 
   card.addEventListener('click', e => {
     if (e.target.closest('[data-score]')) return;
+    if (e.target.closest('.news-source')) return;
     e.preventDefault();
     openDetail(card);
   });
@@ -767,16 +720,6 @@ document.querySelectorAll('.news-card, .tournament-card, .fighter-card, .section
       e.preventDefault();
       openDetail(card);
     }
-  });
-});
-
-document.querySelectorAll('.news-source').forEach(link => {
-  link.removeAttribute('href');
-  link.removeAttribute('target');
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const card = link.closest('.news-card, .tournament-card');
-    if (card) openDetail(card);
   });
 });
 

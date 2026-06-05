@@ -1,0 +1,71 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Test",
+      "email": "test@test.com",
+      "password": "$2a$10$HGOdt9DTIv7ipaY62B9GtOxeWe9kGmIIy0sPBg6KHCQaFFEgRE5oK",
+      "created_at": "2026-05-31T08:42:09.282Z"
+    },
+    {
+      "id": 2,
+      "name": "Maga",
+      "email": "magomedtorchkhoew@gmail.com",
+      "password": "$2a$10$cuTVr9.9H14XCt2vaR1mXeiPyiqC37ioz94Md8uC5zKvy65kMkiva",
+      "created_at": "2026-05-31T08:44:10.699Z"
+    },
+    {
+      "id": 3,
+      "name": "TestUser2",
+      "email": "test2@test.com",
+      "password": "$2a$10$wdK9kqOiTwVX.DuZAYlTuuB3L/rkU.1tP57mJWjPLZ04RVju6myDa",
+      "created_at": "2026-05-31T18:11:42.961Z"
+    }
+  ],
+  "ratings": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "section_id": "adi-ahmad-troitskaya",
+      "score": 5,
+      "created_at": "2026-05-31T08:42:24.190Z"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "section_id": "nesterovskaya-wrestling",
+      "score": 5,
+      "created_at": "2026-05-31T08:44:17.313Z"
+    },
+    {
+      "id": 3,
+      "user_id": 2,
+      "section_id": "surkhakhi-wrestling",
+      "score": 5,
+      "created_at": "2026-05-31T08:44:19.006Z"
+    },
+    {
+      "id": 4,
+      "user_id": 2,
+      "section_id": "karabulak-wrestling",
+      "score": 5,
+      "created_at": "2026-05-31T08:44:20.494Z"
+    },
+    {
+      "id": 5,
+      "user_id": 2,
+      "section_id": "nazran-wrestling",
+      "score": 5,
+      "created_at": "2026-05-31T08:44:21.701Z"
+    },
+    {
+      "id": 6,
+      "user_id": 3,
+      "section_id": "nazran-wrestling",
+      "score": 4,
+      "created_at": "2026-05-31T18:11:50.584Z"
+    }
+  ],
+  "nextUserId": 4,
+  "nextRatingId": 7
+}
